@@ -38,55 +38,99 @@ class Deck {
     }
 }
 
-// Action Cards
-class SkipCard {
-    constructor(name = "Skip") {
+// Base Class
+class Card {
+    constructor(name = "") {
         this.name = name;
     }
-    skip(player) {
-        return player.skipTurn = true;
+    getHTML() {
+        const cardDiv = document.createElement('div');
+        cardDiv.innerText = this.name;
     }
 }
 
-class AttackCard {
-    constructor(name = "Attack") {
-    this.name = name;
+// Different Cards inherits class Card
+class SkipCard extends Card {
+    constructor() {
+        super("Skip");
+    }
+    skip() {
+        console.log("skip my own turn.");
+    }
+}
+
+class AttackCard extends Card {
+    constructor() {
+    super("Attack");
     }
     attack(nextPlayer) {
-        return nextPlayer.extraTurn = nextPlayer.extraTurn + 1
+        console.log(`Skip my own turn. ${nextPlayer} has to play 2 turns.`);
+        // return nextPlayer.extraTurn = nextPlayer.extraTurn + 1;
     }
 }
 
-class ShuffleCard {
-    constructor(name = "Shuffle") {
-        this.name = name;
+class ShuffleCard extends Card {
+    constructor() {
+        super("Shuffle");
     }
     shuffle() {
         return deck.shuffle()
     }
 }
 
-class DefuseCard {
-    constructor(name = "Defuse") {
-        this.name = name;
+class NopeCard extends Card {
+    constructor() {
+        super("Nope");
+    }
+    nope() {
+        console.log("nope!")
     }
 }
 
-class ExplodeCard {
-    constructor(name = "Explode") {
-        this.name = name;
+class SeeTheFutureCard extends Card {
+    constructor() {
+        super("See the Future");
+    }
+    seeTheFuture() {
+        console.log("have a little peek...");
     }
 }
-// Unique Cards
-class Card {
-    constructor(name = "") {
-        this.name = name;
+
+class DefuseCard extends Card {
+    constructor() {
+        super("Defuse");
+    }
+}
+
+class ExplodeCard extends Card {
+    constructor() {
+        super("Explode")
     }
 }
 
 class PoliteCat extends Card {
-    constructor(name = "") {
-        super()
+    constructor() {
+        super("Polite Cat")
+    }
+}
+class OmgCat extends Card {
+    constructor() {
+        super("Omg Cat")
+    }
+}
+class YaasCat extends Card {
+    constructor() {
+        super("Yaas Cat")
+    }
+}
+class HeavyBreathingCat extends Card {
+    constructor() {
+        super("Heavy Breathing Cat")
+    }
+}
+class AngryCat extends Card {
+    constructor() {
+        super("Angry Cat")
     }
 }
 
@@ -114,6 +158,13 @@ function freshDeck() {
         cardArr.push(new SkipCard());
         cardArr.push(new AttackCard());
         cardArr.push(new ShuffleCard());
+        cardArr.push(new NopeCard());
+        cardArr.push(new SeeTheFutureCard());
+        cardArr.push(new PoliteCat());
+        cardArr.push(new OmgCat());
+        cardArr.push(new YaasCat());
+        cardArr.push(new HeavyBreathingCat());
+        cardArr.push(new AngryCat());
     }
     if (playerList.length < 3 === true) {
         for (let j = 0; j < 3; j++) {
@@ -124,7 +175,7 @@ function freshDeck() {
 }
 
 const deck = new Deck()
-console.log(deck.shuffle())
+deck.shuffle()
 console.log(deck.cards)
 
 // dealing the next 7 cards
@@ -136,7 +187,6 @@ function dealCardsFromPile() {
         }
     }
 }
-
 dealCardsFromPile()
 console.log(playerList[0].hand)
 console.log(playerList[1].hand)
@@ -154,10 +204,6 @@ function insertExplodeCards() {
 insertExplodeCards();
 deck.shuffle();
 console.log(deck.cards);
-
-
-
-
 
 function start() {
     console.log("game started");
