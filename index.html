@@ -8,9 +8,22 @@
     <link href="style.css" rel="stylesheet">
 </head>
 <body>
-    <div class="deck" id="deckpile">Deck Pile</div>
-    <div class="deck" id="discardpile">Discard Pile</div>
-    <div class="deck" id="playerdeck">Player Deck</div>
+    <div class="game-container">
+        <h1 id="game-title">Exploding Kitties</h1>
+        <form>
+            <input type="text" id="player-one" placeholder="Enter 1st player's name">
+            <input type="text" id="player-two" placeholder="Enter 2nd player's name">
+            <button type="submit" id="play-button">PLAY</button>
+        </form>
+        <div class="player-one-column"></div>
+        <div class="player-two-column"></div>
+        <div class="discard-pile card">discard</div>
+        <div class="deck-pile card">draw</div>
+        <div class="stf card" id="stf-1">see the future 1</div>
+        <div class="stf card" id="stf-2">see the future 2</div>
+        <div class="stf card" id="stf-3">see the future 3</div>
+
+    </div>
     <script src="main.js"></script>
 </body>
 </html>

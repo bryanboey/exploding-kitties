@@ -1,40 +1,41 @@
-// card types = 1. unique, 2. action
-// each card * 4
-const uniqueCards = ["polite cat", "omg cat", "yaas cat", "heavy breathing cat", "angry cat"]
-const actionCards = [
-    { skip: "end your turn without drawing card" },
-    { attack: "end your turn, next player plays 2 turns" },
-    { nope: "denies a player's action play" },
-    { seeTheFuture: "privately peek the first 3 cards from draw pile" },
-    { shuffle: "shuffle the draw pile" },
-    { defuse: "defuses exploding kitten" },
-    { explodingKitten: "if no defuse card, you dead" }
-]
-
-// 1. deal 1 'defuse' card to each player
-// 2. if playerlist < 3 { push 2 defuse into deck} 
-// 3. shuffle deck = draw pile
-// 4. deal 7 cards to each players from the draw pile
-// 5. insert playerlist.length-1 'exploding kitten' to the deck
-// 6. shuffle deck = draw pile
-// 7. random player starts
-
-// Deck of cards
+// Exploding Kitties Game
 class Deck {
-    constructor(cards = freshDeck()) {
-        this.cards = cards;
+    constructor() {
+        this.deck = [];
+        this.reset(); // new deck
+    }
+    reset() {
+        this.deck = [];
+        for (let i = 0; i < 4; i++) {
+            this.deck.push(new AttackCard());
+            this.deck.push(new SkipCard());
+            this.deck.push(new FavorCard());
+            this.deck.push(new ShuffleCard());
+            this.deck.push(new PoliteCat());
+            this.deck.push(new OmgCat());
+            this.deck.push(new YaasCat());
+            this.deck.push(new HeavyBreathingCat());
+            this.deck.push(new AngryCat());
+        }
+        for (let i = 0; i < 5; i++) {
+            this.deck.push(new NopeCard());
+            this.deck.push(new SeeTheFutureCard());
+        }
     }
     get numOfCards() {
-        return this.cards.length
+        return this.deck.length
     }
     shuffle() {
         for (let i = this.numOfCards - 1; i > 0; i--) {
             const newIndex = Math.floor(Math.random() * (i + 1));
-            const oldValue = this.cards[newIndex];
-            this.cards[newIndex] = this.cards[i];
-            this.cards[i] = oldValue
+            const oldValue = this.deck[newIndex];
+            this.deck[newIndex] = this.deck[i];
+            this.deck[i] = oldValue
         }
         console.log("shuffled!");
+    }
+    deal() {
+        return this.deck.shift();
     }
 }
 
@@ -43,71 +44,57 @@ class Card {
     constructor(name = "") {
         this.name = name;
     }
-    getHTML() {
-        const cardDiv = document.createElement('div');
-        cardDiv.innerText = this.name;
-    }
 }
 
-// Different Cards inherits class Card
-class SkipCard extends Card {
-    constructor() {
-        super("Skip");
-    }
-    skip() {
-        console.log("skip my own turn.");
-    }
-}
-
-class AttackCard extends Card {
-    constructor() {
-    super("Attack");
-    }
-    attack(nextPlayer) {
-        console.log(`Skip my own turn. ${nextPlayer} has to play 2 turns.`);
-        // return nextPlayer.extraTurn = nextPlayer.extraTurn + 1;
-    }
-}
-
-class ShuffleCard extends Card {
-    constructor() {
-        super("Shuffle");
-    }
-    shuffle() {
-        return deck.shuffle()
-    }
-}
-
+// Nope 5x
 class NopeCard extends Card {
     constructor() {
         super("Nope");
     }
-    nope() {
-        console.log("nope!")
+}
+// Attack 4x
+class AttackCard extends Card {
+    constructor() {
+    super("Attack");
     }
 }
-
+// Skip 4x
+class SkipCard extends Card {
+    constructor() {
+        super("Skip");
+    }
+}
+// Favor 4x
+class FavorCard extends Card {
+    constructor() {
+        super("Favor");
+    }
+}
+// Shuffle 4x
+class ShuffleCard extends Card {
+    constructor() {
+        super("Shuffle");
+    }
+}
+// See the Future 5x
 class SeeTheFutureCard extends Card {
     constructor() {
         super("See the Future");
     }
-    seeTheFuture() {
-        console.log("have a little peek...");
-    }
 }
-
-class DefuseCard extends Card {
-    constructor() {
-        super("Defuse");
-    }
-}
-
-class ExplodeCard extends Card {
+// Exploding Kitten 4x
+class ExplodingKittenCard extends Card {
     constructor() {
         super("Explode")
     }
 }
-
+// Defuse 6x
+class DefuseCard extends Card {
+    constructor() {
+        super("Defuse")
+    }
+}
+// Powerless cards 4 * 5
 class PoliteCat extends Card {
     constructor() {
         super("Polite Cat")
@@ -134,77 +121,45 @@ class AngryCat extends Card {
     }
 }
 
-// Player Class 
-class Player {
-    constructor(name = "", hand = [ new DefuseCard() ]) {
-        this.name = name;
-        this.hand = hand;
-        this.skipTurn = false;
-        this.extraTurn = 0;
-        
+function createPlayerInfo(name) {
+    let playerInfo = {
+        name: name.value,
+        hand: [ new DefuseCard() ],
+        createEle() {
+            const playerOneH2 = document.createElement('h2');
+            playerOneH2.innerText = name.value
+            return playerOneH2
+        },
     }
+    return playerInfo
 }
 
-// Creating Players
-const playerList = []
-playerList.push(new Player("Bryan"))
-playerList.push(new Player("Cindy"))
-console.log(playerList)
+function start(e) {
+    e.preventDefault();
+    // create players
+    getPlayerOne = document.querySelector('#player-one');
+    getPlayerTwo = document.querySelector('#player-two');
+    playerOne = createPlayerInfo(getPlayerOne)
+    playerTwo = createPlayerInfo(getPlayerTwo)
+    document.querySelector('.player-one-column').append(playerOne.createEle());
+    document.querySelector('.player-two-column').append(playerTwo.createEle());
 
-// Creating Deck of Cards 
-const cardArr = [];
-function freshDeck() {
-    for (let i = 0; i < 4; i++) {
-        cardArr.push(new SkipCard());
-        cardArr.push(new AttackCard());
-        cardArr.push(new ShuffleCard());
-        cardArr.push(new NopeCard());
-        cardArr.push(new SeeTheFutureCard());
-        cardArr.push(new PoliteCat());
-        cardArr.push(new OmgCat());
-        cardArr.push(new YaasCat());
-        cardArr.push(new HeavyBreathingCat());
-        cardArr.push(new AngryCat());
+    // create deck
+    const deckpile = document.querySelector('.deck-pile')
+    const deck = new Deck();
+    deck.shuffle()
+
+    // deal players 7 cards each
+    for (let i = 0; i < 7; i++) {
+        playerOne.hand.push(deck.deal());
+        playerTwo.hand.push(deck.deal());
     }
-    if (playerList.length < 3 === true) {
-        for (let j = 0; j < 3; j++) {
-            cardArr.push(new DefuseCard())
-        }
-    }
-    return cardArr;
+
+    // insert exploding kitten card and reshuffle
+    deck.deck.push(new ExplodingKittenCard());
+    deck.shuffle();
+
 }
 
-const deck = new Deck()
-deck.shuffle()
-console.log(deck.cards)
-
-// dealing the next 7 cards
-function dealCardsFromPile() {
-    if (playerList.length-1 === 1) {
-        for (let i = 0; i < 7; i++) {
-            playerList[0].hand.push(deck.cards.shift());
-            playerList[1].hand.push(deck.cards.shift());
-        }
-    }
-}
-dealCardsFromPile()
-console.log(playerList[0].hand)
-console.log(playerList[1].hand)
-console.log(deck.cards)
-
-// after dealing player cards, insert explode cards and shuffle
-function insertExplodeCards() {
-    x = playerList.length
-    for (let i = 0; i < playerList.length-1; i++) {
-        cardArr.push(new ExplodeCard());
-    }
-    return cardArr;
-}
-
-insertExplodeCards();
-deck.shuffle();
-console.log(deck.cards);
-
-function start() {
-    console.log("game started");
-}
+const playButton = document.querySelector('#play-button');
+playButton.addEventListener('click', start);

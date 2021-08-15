@@ -1,0 +1,28 @@
+user select play a game
+enter player 1 and 2 names
+start:
+deal user1 1 x [defuse card]
+deal user2 1 x [defuse card]
+create deck
+shuffle deck
+deck.deal 7 cards to user1
+deck.deal 7 cards to user2
+insert 1 x [exploding kitten] into deck
+deck shuffle
+[game started]
+..waiting for user1 to play/draw [card]
+user1 play [card]
+[card] function/method
+user1 draw [card]
+user1 turn ended
+waiting for user2 to play/draw [card]
+...
+user2 draw [exploding kitten]
+user2 use [defuse card] on [exploding kitten]
+user2 turn ended
+user1 draw [exploding kitten]
+user1 use [defuse card] on [exploding kitten]
+user1 turn ended
+user2 draw [exploding kitten]
+user2 has no [defuse card]. user2 dies
+user1 wins
