@@ -65,6 +65,7 @@
     grid-row-start: 1;
 }
 .player-one-column {
+    grid-row-start: 3;
     display: grid;
     grid-template-columns: repeat(4, 50px);
     grid-template-rows: repeat(9, 80px);
@@ -72,18 +73,23 @@
 }
 .player-two-column {
     grid-column-start: 9;
+    grid-row-start: 3;
     display: grid;
     grid-template-columns: repeat(4, 50px);
     grid-template-rows: repeat(9, 80px);
     gap: .5rem;
 }
-.player-two-column h3 {
+
+#p1::after {
+    background-color:rgba(255, 120, 30, 0.3)
+}
+/* .player-two-column h3 {
     text-align:right;
 }
 
 h3 {
     grid-column-end: span 4;
-}
+} */
 
 .player-hand {
     background-color: rgb(255, 121, 30, 0.9);;
@@ -115,3 +121,4 @@ h3 {
 #play-button:hover {
     background-color: rgb(255, 100, 0, 1);
 }
+

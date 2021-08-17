@@ -1,4 +1,5 @@
-// Exploding Kitties Game
+"use strict";
+// Deck Class
 class Deck {
     constructor() {
         this.cards = [];
@@ -36,6 +37,9 @@ class Deck {
     }
     deal() {
         return this.cards.shift();
+    }
+    test() {
+        console.log("i am working");
     }
 }
 
@@ -128,14 +132,17 @@ class AngryCat extends Card {
     }
 }
 
+// Exploding Kitties Game
+
 const gameContainer = document.querySelector('.game-container');
 const playButton = document.querySelector('#play-button');
-const p1 = document.querySelector('.player-one-column');
-const p2 = document.querySelector('.player-two-column');
+const p1 = document.getElementById('p1')
+const p2 = document.getElementById('p2')
 const gameMessages = document.querySelector('#game-messages');
-let player1
-let player2
+let player1;
+let player2;
 let currentPlayer;
+let currentTurn;
 let playerList = [player1, player2];
 
 
@@ -146,14 +153,13 @@ class Game {
         this.playerList = []
         this.skipPlayer = false;
         this.extraTurn = false;
-        this.currentPlayer = turnEnd();
+        this.currentPlayer = "";
+        this.currentTurn = currentTurn;
     }
     start(e) {
-        console.log(deck)
-        p1.innerHTML = "<h3>Player 1</h3>"
-        p2.innerHTML = "<h3>Player 2</h3>"
-        playButton.style.display = "none";
         e.preventDefault()
+        playButton.style.display = "none";
+        discardPile.innerHTML = ""
         
         player1 = { name: "Player 1", hand: [ new Defuse() ], column: document.querySelector('#p1')}
         player2 = { name: "Player 2", hand: [ new Defuse() ], column: document.querySelector('#p2')}
@@ -177,24 +183,27 @@ class Game {
         console.log(deck.cards)
 
         //player 1 to start
-        currentPlayer = player1
+        currentPlayer = player2
         console.log(currentPlayer)
         gameMessages.innerText = `Game started! Player 1 goes first.`
         seeTheFuture()
+        drawPile.addEventListener('click', game.drawCard)
+        turnEnd()
     }
     drawCard() {
-        if (this.skipPlayer === true) {
-            turnEnd()
-            this.skipPlayer = false;
-            seeTheFuture()
-        } else if (this.extraTurn === true) {
+        // if (deck.numOfCards !== 0) ===> consider putting condition 
+        console.log(currentPlayer.hand);
+        if (game.extraTurn === true) {
+            console.log(this.extraTurn);
             let columnToAppend;
             columnToAppend = currentPlayer.column
             currentPlayer.hand.push(deck.deal())
             let drawnCard = currentPlayer.hand[currentPlayer.hand.length-1].getHTML()
             checkDrawnCard(drawnCard, currentPlayer, columnToAppend)
             seeTheFuture()
+            game.extraTurn = false;
         } else {
+            console.log(game.currentPlayer)
             let columnToAppend;
             columnToAppend = currentPlayer.column
             currentPlayer.hand.push(deck.deal())
@@ -208,7 +217,6 @@ class Game {
     playAgain() {
         playButton.innerText = "Play again?"
         playButton.style.display = "block"
-        playAgainButton.addEventListener('click', this.start)
     }
 }
 const deck = new Deck();
@@ -223,45 +231,74 @@ function displayPlayerCards(player, column) {
         playerCard.id = card.name
         playerCard.innerText = card.name
         column.append(playerCard)
-        playerCard.addEventListener('click', onClickDiscard)
+        // playerCard.addEventListener('click', onClickDiscard) // test here
     }
 }
 
 const discardedCardsArray = [];
+const discardPile = document.querySelector('.discard-pile');
 function onClickDiscard(e) {
-    const discardPile = document.querySelector('.discard-pile');
-    if (e.target.innerText === "Defuse") {
-        alert("you can't use Defuse Card!")
-    } else {
-        let object = e.target.innerText
-        discardedCardsArray.push(object);
-        e.target.className = "discarded card"
-        discardPile.append(e.target);
-        // document.querySelector('#' + e.target.id).remove()
-        // document.getElementsByTagName(e.target.innerText)[0].remove
-        console.log("discarded array: " + discardedCardsArray)
-        console.log(e.target)
-        return checkDiscardCard(object)
-    }
-}
-function checkDiscardCard(object) {
-    switch (object) {
+    let object = e.target
+    let x = object.innerText
+
+    switch (x) {
+        case "Defuse": 
+            alert("you can't use Defuse Card!");
+            break;
         case "Shuffle":
             deck.shuffle();
             gameMessages.innerText = "Deck has been shuffled. Draw a card to end turn"
             seeTheFuture();
+            appendDiscardedCards(object)
             break;
         case "Skip":
-            game.skipPlayer = true;
-            game.drawCard();
+            if (game.extraTurn === true) {
+                console.log("extra turn false")
+                game.extraTurn = false;
+                appendDiscardedCards(object);
+            } else { 
+                turnEnd();
+                appendDiscardedCards(object)
+            }
             break;
         case "SeeTheFuture":
             stfToggle()
             console.log("checkdiscardcard")
+            appendDiscardedCards(object)
+            break;
+        case "Attack":
+            turnEnd();
+            game.extraTurn = true;
+            console.log(game.extraTurn)
+            appendDiscardedCards(object)
+            break;
+        case "Nope":
+            console.log(discardedCardsArray)
+            if (discardedCardsArray[0] === "Attack") {
+                console.log('entered here')
+                turnEnd();
+                game.extraTurn = false;
+                appendDiscardedCards(object)
+            } else if (discardedCardsArray[0] === "Skip") {
+                turnEnd();
+                appendDiscardedCards(object);
+            } else {
+                alert("You can only use Nope against Attack or Skip cards!")
+            }
             break;
     }
 }
 
+function appendDiscardedCards(object) {
+    discardedCardsArray.unshift(object.innerText);
+    object.className = "discarded card"
+    discardPile.append(object);
+    console.log(currentPlayer.hand) //.splice(findIndex(x => x.name === object.innerText), 1)
+    console.log("discarded array: " + discardedCardsArray)
+    console.log(object)
+}
+
+// Create See The Future Cards
 const stfWrapper = document.querySelector('.stf-wrapper')
 function seeTheFuture() {
     console.log("stf called")
@@ -290,6 +327,7 @@ function stfToggle() {
     }
 }
 
+// Check Drawn Cards
 function checkDrawnCard(drawnCard, player, columnToAppend) {
     let otherPlayer;
     if (player === player1) {
@@ -314,9 +352,9 @@ function checkDrawnCard(drawnCard, player, columnToAppend) {
         return game.playAgain();
     } else {
         drawnCard.className = "player-hand card"
+        drawnCard.id = drawnCard.innerText
         columnToAppend.append(drawnCard);
-        gameMessages.innerText = `${player.name} ended his turn by drawing a card.`
-        drawnCard.addEventListener('click', onClickDiscard)
+        // drawnCard.addEventListener('click', onClickDiscard) // test here
     }
     console.log(player.hand)
 }
@@ -324,14 +362,35 @@ function checkDrawnCard(drawnCard, player, columnToAppend) {
 function turnEnd() {
     if (currentPlayer === player1) {
         currentPlayer = player2;
+        p2.addEventListener('click', onClickDiscard);
+        for (const item of p2.children) {
+            item.style.backgroundColor = "rgb(255, 121, 30, 0.9)"
+            item.style.opacity = "1"
+        }
+        p1.removeEventListener('click', onClickDiscard);
+        for (const item of p1.children) {
+            item.style.backgroundColor = "grey"
+            item.style.opacity = "0.5"
+        }
     } else {
         currentPlayer = player1
+        p1.addEventListener('click', onClickDiscard);
+        for (const item of p1.children) {
+            item.style.backgroundColor = "rgb(255, 121, 30, 0.9)"
+            item.style.opacity = "1"
+        }
+        p2.removeEventListener('click', onClickDiscard);
+        for (const item of p2.children) {
+            item.style.backgroundColor = "grey"
+            item.style.opacity = "0.5"
+
+        }
     }
-    console.log(currentPlayer)
     return currentPlayer
 }
+
+
 
 playButton.addEventListener('click', game.start);
 
 const drawPile = document.querySelector('.draw-pile');
-drawPile.addEventListener('click', game.drawCard)
