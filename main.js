@@ -128,25 +128,18 @@ class AngryCat extends Card {
     }
 }
 
-// function fillInPlayerInfo(name) {
-//     let playerInfo = {
-//         name: name.value,
-//         hand: [ new Defuse() ],
-//         createH2() {
-//             const userH2 = document.createElement('h2');
-//             userH2.innerText = name.value;
-//             return userH2
-//         }
-//     }
-// }
-
+const gameContainer = document.querySelector('.game-container');
+const playButton = document.querySelector('#play-button');
 const p1 = document.querySelector('.player-one-column');
 const p2 = document.querySelector('.player-two-column');
+const gameMessages = document.querySelector('#game-messages');
 let player1
 let player2
 let currentPlayer;
 let playerList = [player1, player2];
 
+
+///// GAME CLASS
 class Game {
     constructor(deck) {
         this.deck = deck;
@@ -155,9 +148,11 @@ class Game {
         this.extraTurn = false;
         this.currentPlayer = turnEnd();
     }
-
     start(e) {
         console.log(deck)
+        p1.innerHTML = "<h3>Player 1</h3>"
+        p2.innerHTML = "<h3>Player 2</h3>"
+        playButton.style.display = "none";
         e.preventDefault()
         
         player1 = { name: "Player 1", hand: [ new Defuse() ], column: document.querySelector('#p1')}
@@ -184,7 +179,7 @@ class Game {
         //player 1 to start
         currentPlayer = player1
         console.log(currentPlayer)
-
+        gameMessages.innerText = `Game started! Player 1 goes first.`
         seeTheFuture()
     }
     drawCard() {
@@ -205,12 +200,17 @@ class Game {
             currentPlayer.hand.push(deck.deal())
             let drawnCard = currentPlayer.hand[currentPlayer.hand.length-1].getHTML()
             checkDrawnCard(drawnCard, currentPlayer, columnToAppend)
+            
             turnEnd()
             seeTheFuture()
         }
     }
+    playAgain() {
+        playButton.innerText = "Play again?"
+        playButton.style.display = "block"
+        playAgainButton.addEventListener('click', this.start)
+    }
 }
-const endButton = document.querySelector('#endturn-button');
 const deck = new Deck();
 const game = new Game(deck)
 
@@ -220,6 +220,7 @@ function displayPlayerCards(player, column) {
     for (const card of player.hand) {
         const playerCard = document.createElement('div');
         playerCard.className = "player-hand card";
+        playerCard.id = card.name
         playerCard.innerText = card.name
         column.append(playerCard)
         playerCard.addEventListener('click', onClickDiscard)
@@ -236,6 +237,8 @@ function onClickDiscard(e) {
         discardedCardsArray.push(object);
         e.target.className = "discarded card"
         discardPile.append(e.target);
+        // document.querySelector('#' + e.target.id).remove()
+        // document.getElementsByTagName(e.target.innerText)[0].remove
         console.log("discarded array: " + discardedCardsArray)
         console.log(e.target)
         return checkDiscardCard(object)
@@ -245,9 +248,12 @@ function checkDiscardCard(object) {
     switch (object) {
         case "Shuffle":
             deck.shuffle();
+            gameMessages.innerText = "Deck has been shuffled. Draw a card to end turn"
+            seeTheFuture();
             break;
         case "Skip":
             game.skipPlayer = true;
+            game.drawCard();
             break;
         case "SeeTheFuture":
             stfToggle()
@@ -256,7 +262,7 @@ function checkDiscardCard(object) {
     }
 }
 
-const stfContainer = document.querySelector('.stf-container')
+const stfWrapper = document.querySelector('.stf-wrapper')
 function seeTheFuture() {
     console.log("stf called")
     const stfCards = document.querySelectorAll('.stf')
@@ -265,53 +271,57 @@ function seeTheFuture() {
             items.remove();
         }
     }
-
-    const stf1 = document.createElement('div')
-    stf1.className = "stf card"
-    stf1.id = "stf-1"
-    stf1.innerText = deck.cards[0].name
-
-    const stf2 = document.createElement('div')
-    stf2.className = "stf card"
-    stf2.innerText = deck.cards[1].name
-    stf2.id = "stf-2"
-
-    const stf3 = document.createElement('div')
-    stf3.className = "stf card"
-    stf3.innerText = deck.cards[2].name
-    stf3.id = "stf-3"
-
-    stfContainer.append(stf1, stf2, stf3)
-
-    stfContainer.style.display = "none"
+    let stfArr = [...deck.cards].slice(0,3)
+    console.log(stfArr)
+    for (let i = 0; i < stfArr.length; i++) {
+        const stfDiv = document.createElement('div');
+        stfDiv.className = "stf card";
+        stfDiv.id = "stf-" + i;
+        stfDiv.innerText = stfArr[i].name;
+        stfWrapper.append(stfDiv);
+    }
+    stfWrapper.style.display = "none"
 }
 function stfToggle() {
-    if (stfContainer.style.display === "none") {
-        stfContainer.style.display = "block"
+    if (stfWrapper.style.display === "none") {
+        stfWrapper.style.display = "block"
     } else {
-        stfContainer.style.display = "none"
+        stfWrapper.style.display = "none"
     }
 }
 
 function checkDrawnCard(drawnCard, player, columnToAppend) {
+    let otherPlayer;
+    if (player === player1) {
+        otherPlayer = player2;
+    } else {
+        otherPlayer = player1
+    }
+
     if (drawnCard.innerText === "ExplodingKitten" && player.hand.findIndex(x => x.name === "Defuse") !== -1) {
         player.hand.splice(player.hand.findIndex(x => x.name === "Defuse"), 1);
+        columnToAppend.querySelector('#Defuse').remove()
         console.log(`${player.name} used [Defuse Card] on [Exploding Kitty]`)
-        player.hand.splice(player.hand[player.hand.length-1], 1);
+        player.hand.splice(player.hand.findIndex(x => x.name === "ExplodingKitten"), 1);
+        // game message
+        gameMessages.innerText = `${player.name} drew the exploding kitten and defused it!`
         deck.cards.unshift(new ExplodingKitten); //placeholder => to create function to insert user input
         deck.shuffle();
     } else if (drawnCard.innerText === "ExplodingKitten" && player.hand.findIndex(x => x.name === "Defuse") === -1) {
+        gameMessages.innerText = `${player.name} drew the exploding kitten and died. ${otherPlayer.name} wins!`
+        drawPile.removeEventListener('click', game.drawCard)
         console.log(`${player.name} died from [Exploding Kitty]`)
+        return game.playAgain();
     } else {
         drawnCard.className = "player-hand card"
         columnToAppend.append(drawnCard);
+        gameMessages.innerText = `${player.name} ended his turn by drawing a card.`
         drawnCard.addEventListener('click', onClickDiscard)
     }
     console.log(player.hand)
 }
 
 function turnEnd() {
-    endButton.style.display = "none";
     if (currentPlayer === player1) {
         currentPlayer = player2;
     } else {
@@ -320,15 +330,8 @@ function turnEnd() {
     console.log(currentPlayer)
     return currentPlayer
 }
-// function checkToEndTurn() {
-//     endButton.style.display = "block"
-//     endButton.addEventListener('click', turnEnd)
-// }
 
-const playButton = document.querySelector('#play-button');
 playButton.addEventListener('click', game.start);
 
 const drawPile = document.querySelector('.draw-pile');
-drawPile.addEventListener('click', (currentPlayer) => {
-    game.drawCard(currentPlayer)
-})
+drawPile.addEventListener('click', game.drawCard)

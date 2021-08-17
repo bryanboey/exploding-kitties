@@ -8,17 +8,20 @@
     padding-top: 1rem;
 }
 
-form { 
-    grid-column-start: 4;
-    grid-column-end: span 10;
+#game-title {
+    grid-column-start: 5;
+    grid-column-end: span 4;
     grid-row-start: 1;
+    text-align: center;
+    font-size: 1.75rem;
 }
 
-#game-title {
-    grid-column-start: 4;
-    grid-column-end: span 6;
+#game-messages {
+    grid-column-start: 5;
+    grid-column-end: span 4;
     grid-row-start: 2;
     text-align: center;
+
 }
 
 .card {
@@ -26,6 +29,7 @@ form {
     width: 100%;
     border: 1px solid black;
     border-radius: .5rem;
+    font-size: 0.75rem
 }
 
 .discard-pile {
@@ -40,45 +44,54 @@ form {
 }
 
 .stf-container {
-    grid-column-start: 7;
+    grid-column-start: 6;
     grid-row-start: 5;
+    display: grid;
+    grid-template-columns: repeat(3, 50px);
+    grid-template-rows: repeat(1, 80px);
+    gap: .5rem;
 }
 
+#stf-0 {
+    grid-column-start: 1;
+    grid-row-start: 1;
+}
 #stf-1 {
-    grid-column-start: 7;
-    grid-row-start: 5;
-    gap: .5rem
+    grid-column-start: 2;
+    grid-row-start: 1;
 }
 #stf-2 {
-    grid-column-start: 7;
-    grid-row-start: 6;
-    gap: .5rem
+    grid-column-start: 3;
+    grid-row-start: 1;
 }
-#stf-3 {
-    grid-column-start: 7;
-    grid-row-start: 7;
-    gap: .5rem
-}
-
 .player-one-column {
-    grid-column-start: 1;
-    grid-row-start: 1;
-}
-.player-one-column:nth-child(2) {
-    background-color: red;
-    grid-column-start: 1;
-    grid-row-start: 1;
+    display: grid;
+    grid-template-columns: repeat(4, 50px);
+    grid-template-rows: repeat(9, 80px);
+    gap: .5rem;
 }
 .player-two-column {
-    grid-column-start: 12;
-    grid-row-start: 1;
+    grid-column-start: 9;
+    display: grid;
+    grid-template-columns: repeat(4, 50px);
+    grid-template-rows: repeat(9, 80px);
+    gap: .5rem;
+}
+.player-two-column h3 {
+    text-align:right;
+}
+
+h3 {
+    grid-column-end: span 4;
 }
 
 .player-hand {
-    background-color: coral;
-    /* margin: 0.5rem; */
+    background-color: rgb(255, 121, 30, 0.9);;
     text-align: center;
     cursor: pointer;
+}
+.card:hover {
+    background-color: rgba(255, 120, 30, 0.3);
 }
 
 .discarded {
@@ -91,13 +104,14 @@ form {
     grid-row: 4;
 }
 #play-button {
-    grid-column-start: 6;
-    grid-column-end: span 2;
-    grid-row-start: 1;
-}
-#endturn-button {
+    height: 50%;
     grid-column-start: 6;
     grid-column-end: span 2;
     grid-row-start: 3;
-    display: none;
+    border-radius: 20px;
+    border: none;
+    background-color: rgb(255, 100, 0, 0.65);
+}
+#play-button:hover {
+    background-color: rgb(255, 100, 0, 1);
 }
