@@ -1,15 +1,20 @@
 body {
+    background-image: url("images/patternbg.png");
+    background-size: 30%;
     background-color: slategrey;
 }
+
 .game-container {
     margin: 0;
     display: grid;
     grid-template-columns: repeat(12, 116px);
-    grid-template-rows: repeat(9, 160px);
+    grid-template-rows: [row1-start] 3% [row1-end] 3% [third-line] repeat(5,160px);
     gap: .5rem;
     justify-content: center;
-    padding-top: 1rem;
+    /* padding-top: 1rem; */
 }
+
+
 
 #game-title {
     grid-column-start: 5;
@@ -48,6 +53,14 @@ body {
     grid-row-start: 4;
     cursor: pointer;
 }
+
+#deck-count {
+    grid-column-start: 6;
+    grid-row-start: 5;
+    grid-column-end: span 2;
+    text-align: center;
+}
+
 .draw-pile:hover {
     background-image: url("images/Card\ Back.png");
     background-size: 110%;
@@ -55,11 +68,12 @@ body {
 
 .stf-container {
     grid-column-start: 6;
-    grid-row-start: 5;
+    grid-row-start: 3;
     display: grid;
     grid-template-columns: repeat(3, 116px);
     grid-template-rows: repeat(1, 160px);
     gap: .5rem;
+    margin-left: -58px;
 }
 
 #stf-0 {
@@ -74,11 +88,12 @@ body {
     grid-column-start: 3;
     grid-row-start: 1;
 }
+
 .player-one-column {
     grid-row-start: 3;
     display: grid;
     grid-template-columns: repeat(4, 116px);
-    grid-template-rows: repeat(9, 160px);
+    grid-template-rows: repeat(5, 160px);
     gap: .5rem;
 }
 .player-two-column {
@@ -86,7 +101,7 @@ body {
     grid-row-start: 3;
     display: grid;
     grid-template-columns: repeat(4, 116px);
-    grid-template-rows: repeat(9, 160px);
+    grid-template-rows: repeat(5, 160px);
     gap: .5rem;
 }
 
@@ -120,18 +135,19 @@ h3 {
     grid-row: 4;
 }
 #play-button {
-    height: 50%;
+    height: 20%;
     grid-column-start: 6;
     grid-column-end: span 2;
-    grid-row-start: 3;
+    grid-row-start: 5;
     border-radius: 20px;
     border: none;
-    background-color: rgb(255, 100, 0, 0.65);
+    background-color: rgb(255, 100, 0);
+    margin: 50px 25px 50px 25px;
 }
 #play-button:hover {
-    background-color: rgb(255, 100, 0, 1);
+    background-color: rgb(255, 255, 255);
 }
 
-/* .img {
-    width: 50px;
-} */
+img:hover {
+    transform: scale(1.4);
+}

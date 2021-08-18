@@ -148,6 +148,7 @@ const playButton = document.querySelector('#play-button');
 const drawPile = document.querySelector('.draw-pile');
 const cardBackImage = "images/Card Back.png"
 const gameMessages = document.querySelector('#game-messages');
+const deckCounter = document.querySelector('#deck-count')
 const p1 = document.getElementById('p1')
 const p2 = document.getElementById('p2')
 let player1;
@@ -170,6 +171,7 @@ class Game {
         
         player1 = { name: "Player 1", hand: [ new Defuse() ], column: document.querySelector('#p1')}
         player2 = { name: "Player 2", hand: [ new Defuse() ], column: document.querySelector('#p2')}
+        
         // create deck
         deck.reset();
         deck.cards.push(new Defuse());
@@ -220,6 +222,8 @@ class Game {
             seeTheFuture()
             // turnEnd();
         }
+        // gameMessages.innerText = `${nextPlayer.name} ended turn by drawing a card`
+        deckCounter.innerText = `${deck.numOfCards} card(s) remaining`
     }
     playAgain() {
         playButton.innerText = "Play again?"
@@ -236,13 +240,11 @@ function updatePlayerHandDiv(player) {
         // console.log(card)
         player.column.append(card.getHTML())
     }
-    console.log(player.hand)
 }
 
 const discardedCardsArray = [];
 const discardPile = document.querySelector('.discard-pile');
 function onClickDiscard(e) {
-    console.log(e.target)
     let object = e.target
     let x = object.id
 
@@ -280,7 +282,7 @@ function onClickDiscard(e) {
             appendDiscardedCards(object)
             turnEnd();
             game.extraTurn = true;
-            console.log(game.extraTurn)
+            seeTheFuture();
             break;
         case "Nope":
             console.log(discardedCardsArray)
@@ -320,11 +322,11 @@ function appendDiscardedCards(object) {
     currentPlayer.hand.splice(currentPlayer.hand.findIndex(x => x.name === object.id), 1)
     console.log("discarded array: " + discardedCardsArray)
     console.log(currentPlayer.hand)
-    console.log('could it be this?')
 }
 
 // Create See The Future Cards
-const stfWrapper = document.querySelector('.stf-wrapper')
+const stfWrapper = document.querySelector('.stf-wrapper');
+const stfContainer = document.querySelector('.stf-container');
 function seeTheFuture() {
     const stfCards = document.querySelectorAll('.stf')
     if (stfCards !== null) {
@@ -333,19 +335,24 @@ function seeTheFuture() {
         }
     }
     let stfArr = [...deck.cards].slice(0,3)
-    for (const item of stfArr) {
+    for (let i = 0; i < stfArr.length; i++) {
         const stfDiv = document.createElement('div');
-        stfDiv.className = "stf"
-        stfDiv.append(item.getHTML());
-        stfWrapper.append(stfDiv);
+        stfDiv.className = "stf";
+        stfDiv.id = "stf-" + i;
+        stfDiv.append(stfArr[i].getHTML());
+        stfDiv.style.display = "none"
+        stfContainer.append(stfDiv);
     }
-    stfWrapper.style.display = "none"
 }
+
 function stfToggle() {
-    if (stfWrapper.style.display === "none") {
-        stfWrapper.style.display = "block"
-    } else {
-        stfWrapper.style.display = "none"
+    const selectSTF = document.querySelectorAll('.stf');
+    for (const item  of selectSTF) {
+        if (item.style.display === "none") {
+            item.style.display = "block"
+        } else {
+            item.style.display = "none"
+        }
     }
 }
 
@@ -384,13 +391,13 @@ function turnEnd() {
 
         p2.addEventListener('click', onClickDiscard);
         for (const item of p2.children) {
-            item.style.backgroundColor = "rgb(255, 121, 30, 0.9)"
+            item.style.backgroundColor = "rgb(255, 121, 30, 1)"
             item.style.opacity = "1"
         }
         p1.removeEventListener('click', onClickDiscard);
         for (const item of p1.children) {
             item.style.backgroundColor = "grey"
-            item.style.opacity = "0.5"
+            item.style.opacity = "0.6"
         }
 
     } else {
@@ -399,22 +406,20 @@ function turnEnd() {
         
         p1.addEventListener('click', onClickDiscard);
         for (const item of p1.children) {
-            item.style.backgroundColor = "rgb(255, 121, 30, 0.9)"
+            item.style.backgroundColor = "rgb(255, 121, 30, 1)"
             item.style.opacity = "1"
         }
         
         p2.removeEventListener('click', onClickDiscard);
         for (const item of p2.children) {
             item.style.backgroundColor = "grey"
-            item.style.opacity = "0.5"
+            item.style.opacity = "0.6"
 
         }
     }
     console.log(player1.hand)
     console.log(player2.hand)
     return { currentPlayer, nextPlayer }
-    
 }
 
 playButton.addEventListener('click', game.start);
-
