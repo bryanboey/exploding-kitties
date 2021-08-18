@@ -43,65 +43,76 @@ class Deck {
 
 // Base Class
 class Card {
-    constructor(name = "") {
+    constructor(name = "", image = "") {
         this.name = name;
+        this.image = image;
     }
     getHTML() {
-        const cardDiv = document.createElement('div');
-        cardDiv.innerText = this.name
-        cardDiv.id = cardDiv.innerText
-        cardDiv.className = "player-hand card"
-        return cardDiv
+        // const cardDiv = document.createElement('div');
+        // // cardDiv.innerText = this.name;
+        // // cardDiv.id = cardDiv.innerText;
+        // cardDiv.id = this.name
+        // cardDiv.className = "player-hand card";
+
+        const cardImg = document.createElement('img');
+        cardImg.id = this.name;
+        cardImg.innerText = this.name;
+        cardImg.className = "player-hand card"
+        cardImg.src = this.image;
+        cardImg.style.width = "116px";
+        cardImg.style.borderRadius = "0.5rem";
+        // cardDiv.append(cardImg);
+        return cardImg
     }
 }
 
 // Nope 5x
 class Nope extends Card {
     constructor() {
-        super("Nope");
+        super("Nope", "images/Nope.png");
     }
 }
 // Attack 4x
 class Attack extends Card {
     constructor() {
-    super("Attack");
+    super("Attack", "images/Attack.jpeg");
     }
 }
 // Skip 4x
 class Skip extends Card {
     constructor() {
-        super("Skip");
+        super("Skip", "images/Skip.png");
     }
 }
 // Favor 4x
 class Favor extends Card {
     constructor() {
-        super("Favor");
+        super("Favor", "images/Favor.png");
     }
 }
 // Shuffle 4x
 class Shuffle extends Card {
     constructor() {
-        super("Shuffle");
+        super("Shuffle", "images/Shuffle.png");
     }
 
 }
 // See the Future 5x
 class SeeTheFuture extends Card {
     constructor() {
-        super("SeeTheFuture");
+        super("SeeTheFuture", "images/SeeTheFuture.jpeg");
     }
 }
 // Exploding Kitten 4x
 class ExplodingKitten extends Card {
     constructor() {
-        super("ExplodingKitten")
+        super("ExplodingKitten", "images/ExplodingKitten.jpeg")
     }
 }
 // Defuse 6x
 class Defuse extends Card {
     constructor() {
-        super("Defuse")
+        super("Defuse", "images/Defuse.jpg")
     }
 }
 // Powerless cards 4 * 5
@@ -172,9 +183,7 @@ class Game {
         // insert exploding kitten card and reshuffle
         deck.cards.unshift(new ExplodingKitten());
         deck.shuffle();
-        
-        // displayPlayerCards(player1, p1)
-        // displayPlayerCards(player2, p2)
+
         updatePlayerHandDiv(player1)
         updatePlayerHandDiv(player2)
         console.log(player1.hand)
@@ -186,6 +195,7 @@ class Game {
         gameMessages.innerText = `Game started! Player 1 goes first.`
         seeTheFuture()
         drawPile.addEventListener('click', game.drawCard)
+        // document.querySelector('#p1').addEventListener('click', onClickDiscard)
         turnEnd()
     }
     drawCard() {
@@ -204,8 +214,10 @@ class Game {
             columnToAppend = currentPlayer.column
             currentPlayer.hand.push(deck.deal())
             let drawnCard = currentPlayer.hand[currentPlayer.hand.length-1].getHTML()
+            console.log(drawnCard)
             checkDrawnCard(drawnCard, currentPlayer, columnToAppend)
             seeTheFuture()
+            // turnEnd();
         }
     }
     playAgain() {
@@ -217,32 +229,21 @@ class Game {
 const deck = new Deck();
 const game = new Game(deck)
 
-function displayPlayerCards(player, column) {
-
-    console.log(player.hand)
-    for (const card of player.hand) {
-        const playerCard = document.createElement('div');
-        playerCard.className = "player-hand card";
-        playerCard.id = card.name
-        playerCard.innerText = card.name
-        column.append(playerCard)
-        // playerCard.addEventListener('click', onClickDiscard) // test here
-    }
-}
-
 function updatePlayerHandDiv(player) {
     player.column.innerHTML = "";
     for (const card of player.hand) {
-        console.log(card)
+        // console.log(card)
         player.column.append(card.getHTML())
     }
+    console.log(player.hand)
 }
 
 const discardedCardsArray = [];
 const discardPile = document.querySelector('.discard-pile');
 function onClickDiscard(e) {
+    console.log(e.target)
     let object = e.target
-    let x = object.innerText
+    let x = object.id
 
     switch (x) {
         case "Defuse": 
@@ -262,8 +263,8 @@ function onClickDiscard(e) {
                 appendDiscardedCards(object);
             } else { 
                 gameMessages.innerText = `[${currentPlayer.name}] SKIP!`
-                turnEnd();
                 appendDiscardedCards(object)
+                turnEnd();
             }
             seeTheFuture();
             break;
@@ -275,25 +276,25 @@ function onClickDiscard(e) {
             break;
         case "Attack":
             gameMessages.innerText = `[${currentPlayer.name}] ATTACK! ${nextPlayer.name} draw 2 turns`
+            appendDiscardedCards(object)
             turnEnd();
             game.extraTurn = true;
             console.log(game.extraTurn)
-            appendDiscardedCards(object)
             break;
         case "Nope":
             console.log(discardedCardsArray)
             if (discardedCardsArray[0] === "Attack") {
                 console.log('entered here')
                 gameMessages.innerText = `[${currentPlayer.name}] NOPE! AWW YOU MISSED!`
+                appendDiscardedCards(object)
                 turnEnd();
                 game.extraTurn = false;
-                appendDiscardedCards(object)
             } else if (discardedCardsArray[0] === "Skip" && discardedCardsArray[1] === "Attack") {
                 alert("Invalid move. Skip was used against Attack.");
             } else if (discardedCardsArray[0] === "Skip") {
                 gameMessages.innerText = `[${currentPlayer.name}] NOPE! SKIPPER NO SKIPPING!`
-                turnEnd();
                 appendDiscardedCards(object);
+                turnEnd();
             } else {
                 alert("You can only use Nope against Attack or Skip cards!")
             }
@@ -312,12 +313,13 @@ function onClickDiscard(e) {
 }
 
 function appendDiscardedCards(object) {
-    discardedCardsArray.unshift(object.innerText);
+    discardedCardsArray.unshift(object.id);
     object.className = "discarded card"
     discardPile.append(object);
-    currentPlayer.hand.splice(currentPlayer.hand.findIndex(x => x.name === object.innerText), 1)
+    currentPlayer.hand.splice(currentPlayer.hand.findIndex(x => x.name === object.id), 1)
     console.log("discarded array: " + discardedCardsArray)
-    console.log(object)
+    console.log(currentPlayer.hand)
+    console.log('could it be this?')
 }
 
 // Create See The Future Cards
@@ -352,7 +354,7 @@ function stfToggle() {
 // Check Drawn Cards
 function checkDrawnCard(drawnCard, player, columnToAppend) {
 
-    if (drawnCard.innerText === "ExplodingKitten" && player.hand.findIndex(x => x.name === "Defuse") !== -1) {
+    if (drawnCard.id === "ExplodingKitten" && player.hand.findIndex(x => x.name === "Defuse") !== -1) {
         player.hand.splice(player.hand.findIndex(x => x.name === "Defuse"), 1);
         columnToAppend.querySelector('#Defuse').remove()
         console.log(`${player.name} used [Defuse Card] on [Exploding Kitty]`)
@@ -362,21 +364,26 @@ function checkDrawnCard(drawnCard, player, columnToAppend) {
         deck.cards.unshift(new ExplodingKitten); //placeholder => to create function to insert user input
         deck.shuffle();
         turnEnd();
-    } else if (drawnCard.innerText === "ExplodingKitten" && player.hand.findIndex(x => x.name === "Defuse") === -1) {
+    } else if (drawnCard.id === "ExplodingKitten" && player.hand.findIndex(x => x.name === "Defuse") === -1) {
         gameMessages.innerText = `${currentPlayer.name} drew the exploding kitten and exploded. ${nextPlayer.name} wins!`
         drawPile.removeEventListener('click', game.drawCard)
         console.log(`${player.name} died from [Exploding Kitty]`)
         return game.playAgain();
     } else {
         updatePlayerHandDiv(currentPlayer)
-        turnEnd()
+        if (game.extraTurn === false) {
+            turnEnd()
+        }
+        console.log("entered")
     }
 }
 
 function turnEnd() {
+    console.log(`current turn is ${currentPlayer.name}`)
     if (currentPlayer === player1) {
         currentPlayer = player2;
         nextPlayer = player1;
+
         p2.addEventListener('click', onClickDiscard);
         for (const item of p2.children) {
             item.style.backgroundColor = "rgb(255, 121, 30, 0.9)"
@@ -387,14 +394,17 @@ function turnEnd() {
             item.style.backgroundColor = "grey"
             item.style.opacity = "0.5"
         }
+
     } else {
         currentPlayer = player1
         nextPlayer = player2
+        
         p1.addEventListener('click', onClickDiscard);
         for (const item of p1.children) {
             item.style.backgroundColor = "rgb(255, 121, 30, 0.9)"
             item.style.opacity = "1"
         }
+        
         p2.removeEventListener('click', onClickDiscard);
         for (const item of p2.children) {
             item.style.backgroundColor = "grey"
@@ -402,7 +412,10 @@ function turnEnd() {
 
         }
     }
+    console.log(player1.hand)
+    console.log(player2.hand)
     return { currentPlayer, nextPlayer }
+    
 }
 
 playButton.addEventListener('click', game.start);
