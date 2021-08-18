@@ -146,6 +146,7 @@ class AngryCat extends Card {
 const gameContainer = document.querySelector('.game-container');
 const playButton = document.querySelector('#play-button');
 const drawPile = document.querySelector('.draw-pile');
+const cardBackImage = "images/Card Back.png"
 const gameMessages = document.querySelector('#game-messages');
 const p1 = document.getElementById('p1')
 const p2 = document.getElementById('p2')
@@ -325,7 +326,6 @@ function appendDiscardedCards(object) {
 // Create See The Future Cards
 const stfWrapper = document.querySelector('.stf-wrapper')
 function seeTheFuture() {
-    console.log("stf called")
     const stfCards = document.querySelectorAll('.stf')
     if (stfCards !== null) {
         for (const items of stfCards) {
@@ -333,12 +333,10 @@ function seeTheFuture() {
         }
     }
     let stfArr = [...deck.cards].slice(0,3)
-    console.log(stfArr)
-    for (let i = 0; i < stfArr.length; i++) {
+    for (const item of stfArr) {
         const stfDiv = document.createElement('div');
-        stfDiv.className = "stf card";
-        stfDiv.id = "stf-" + i;
-        stfDiv.innerText = stfArr[i].name;
+        stfDiv.className = "stf"
+        stfDiv.append(item.getHTML());
         stfWrapper.append(stfDiv);
     }
     stfWrapper.style.display = "none"
