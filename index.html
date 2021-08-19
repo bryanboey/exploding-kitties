@@ -5,10 +5,74 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exploding Kitties</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;400;700&display=swap" rel="stylesheet">
     <link href="style.css" rel="stylesheet">
 </head>
 <body>
     <div class="game-container">
+        <button id="modal-button">How to play</button>
+        <div class="modal" id="modal-01">
+            <div class="modal-content modal-animate">
+                <header class="modal-container modal-header">
+                    <h2>How to play</h2>
+                    <button id="modal-close-button">&times;</button>
+                </header>
+                <div class="modal-container modal-body">
+                    <h4>HOW IT WORKS</h4>
+                    <p>In the deck of cards are some Exploding Kittens.
+                        You play the game by putting the deck face down and take turns 
+                        drawing cards until someone draws an Exploding Kitten.</p>
+                    <p>When that happens, that person explodes. They are now dead and out of the game.
+                    This process continues until there’s only 1 player left, who wins the game.</p>
+
+                    <p>BASICALLY, IF YOU EXPLODE, YOU LOSE.</p>
+
+                    <h4>TAKING YOUR TURN</h4>
+                    <p>Gather all 5 of your cards into your hand and look at them. Do one of the following:</p>
+                    <p>1a. PASS - Play no cards OR<br>
+                    1b. PLAY - Play a card by placing it FACE UP on top of the Discard Pile. You can play as many cards as you’d like</p>
+
+                    <p>2. End your turn by drawing a card from the Draw Pile into your hand and hope that it’s not an Exploding Kitten. You END YOUR TURN by drawing a card.</p>
+        
+                    <h4>ENDING THE GAME</h4>
+                    <p>The last player who hasn’t exploded wins the game.</h4>
+                    
+                    <h4>CARDS</h4>
+                    <h5>>EXPLODING KITTEN</h5>
+                        You must show this card immediately. Unless you have a Defuse Card, you’re dead. 
+                        (Exploding Kitten is inserted back randomly after defusal)
+
+                    <h5>>DEFUSE</h5>
+                        If you drew an Exploding Kitten, your Defuse Card will automatically be placed into Discard Pile and Exploding Kitten Card will be randomly inserted back (for now).
+
+                    <h5>>ATTACK</h5>
+                        Do not draw any cards. Instead immediately force the next player to take 2 turns in a row. Play then continues from that player. The victim takes a turn as normal (pass-or-play then draw). When their first turn is over, It’s their turn again.
+
+                        The victim of an Attack Card may play an Attack Card and the new victim will have to take 2 turns instead.
+
+                    <h5>>FAVOR</h5>
+                        Randomly steals a player’s card from their hand.
+
+                    <h5>>NOPE</h5>
+                        Stop action cards such as Skip and Attack Cards (for now). May not be used against Exploding Kitten and Defuse Card.
+
+                    <h5>>SHUFFLE</h5>
+                        Self explanatory. Reshuffles the draw pile.
+
+                    <h5>>SKIP</h5>
+                        Immediately end your turn without drawing a card. If you play a Skip Card as a defence to an Attack Card, it only ends 1 of the 2 turns. 2 Skip Cards would end both turns.
+
+                    <h5>>SEE THE FUTURE</h5>
+                        View the top 3 cards from the Draw Pile.<br><br>
+
+                    <b>GOOD LUCK HAVE FUN & DON’T EXPLODE!</b>
+
+                </div>
+            </div>
+        </div>
+        <button id="restart-button">Restart</button>
         <h1 id="game-title">Exploding Kitties</h1>
         <h4 id="game-messages"></h3>
         <button type="submit" id="play-button">PLAY</button>

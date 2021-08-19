@@ -14,11 +14,6 @@ class Deck {
             this.cards.push(new Shuffle());
             this.cards.push(new Nope());
             this.cards.push(new SeeTheFuture());
-            // this.cards.push(new PoliteCat());
-            // this.cards.push(new OmgCat());
-            // this.cards.push(new YaasCat());
-            // this.cards.push(new HeavyBreathingCat());
-            // this.cards.push(new AngryCat());
         }
     }
     get numOfCards() {
@@ -48,20 +43,13 @@ class Card {
         this.image = image;
     }
     getHTML() {
-        // const cardDiv = document.createElement('div');
-        // // cardDiv.innerText = this.name;
-        // // cardDiv.id = cardDiv.innerText;
-        // cardDiv.id = this.name
-        // cardDiv.className = "player-hand card";
-
         const cardImg = document.createElement('img');
         cardImg.id = this.name;
         cardImg.innerText = this.name;
         cardImg.className = "player-hand card"
         cardImg.src = this.image;
-        cardImg.style.width = "116px";
+        cardImg.style.width = "87px";
         cardImg.style.borderRadius = "0.5rem";
-        // cardDiv.append(cardImg);
         return cardImg
     }
 }
@@ -115,7 +103,7 @@ class Defuse extends Card {
         super("Defuse", "images/Defuse.jpg")
     }
 }
-// Powerless cards 4 * 5
+// Powerless cards 4 * 5 [placeholders for future upgrade]
 class PoliteCat extends Card {
     constructor() {
         super("PoliteCat")
@@ -145,6 +133,7 @@ class AngryCat extends Card {
 // Exploding Kitties Game
 const gameContainer = document.querySelector('.game-container');
 const playButton = document.querySelector('#play-button');
+const restartButton = document.querySelector('#restart-button');
 const drawPile = document.querySelector('.draw-pile');
 const cardBackImage = "images/Card Back.png"
 const gameMessages = document.querySelector('#game-messages');
@@ -189,23 +178,23 @@ class Game {
 
         updatePlayerHandDiv(player1)
         updatePlayerHandDiv(player2)
-        console.log(player1.hand)
-        console.log(deck.cards)
 
-        //player 1 to start
+        // Player 1 to start; player2 + turnEnd function to enable
         currentPlayer = player2
-        console.log(currentPlayer)
+
         gameMessages.innerText = `Game started! Player 1 goes first.`
         seeTheFuture()
         drawPile.addEventListener('click', game.drawCard)
-        // document.querySelector('#p1').addEventListener('click', onClickDiscard)
+        restartButton.style.display = "block";
+        restartButton.addEventListener('click', () => {
+            window.location.reload()
+        })
         turnEnd()
     }
     drawCard() {
         // if (deck.numOfCards !== 0) ===> consider putting condition 
         let columnToAppend;
         if (game.extraTurn === true) {
-            // console.log(this.extraTurn);
             columnToAppend = currentPlayer.column
             currentPlayer.hand.push(deck.deal())
             let drawnCard = currentPlayer.hand[currentPlayer.hand.length-1].getHTML()
@@ -213,14 +202,12 @@ class Game {
             seeTheFuture()
             game.extraTurn = false;
         } else {
-            // console.log(game.currentPlayer)
             columnToAppend = currentPlayer.column
             currentPlayer.hand.push(deck.deal())
             let drawnCard = currentPlayer.hand[currentPlayer.hand.length-1].getHTML()
             console.log(drawnCard)
             checkDrawnCard(drawnCard, currentPlayer, columnToAppend)
             seeTheFuture()
-            // turnEnd();
         }
         // gameMessages.innerText = `${nextPlayer.name} ended turn by drawing a card`
         deckCounter.innerText = `${deck.numOfCards} card(s) remaining`
@@ -237,7 +224,6 @@ const game = new Game(deck)
 function updatePlayerHandDiv(player) {
     player.column.innerHTML = "";
     for (const card of player.hand) {
-        // console.log(card)
         player.column.append(card.getHTML())
     }
 }
@@ -285,7 +271,6 @@ function onClickDiscard(e) {
             seeTheFuture();
             break;
         case "Nope":
-            console.log(discardedCardsArray)
             if (discardedCardsArray[0] === "Attack") {
                 console.log('entered here')
                 gameMessages.innerText = `[${currentPlayer.name}] NOPE! AWW YOU MISSED!`
@@ -320,12 +305,9 @@ function appendDiscardedCards(object) {
     object.className = "discarded card"
     discardPile.append(object);
     currentPlayer.hand.splice(currentPlayer.hand.findIndex(x => x.name === object.id), 1)
-    console.log("discarded array: " + discardedCardsArray)
-    console.log(currentPlayer.hand)
 }
 
-// Create See The Future Cards
-const stfWrapper = document.querySelector('.stf-wrapper');
+// Generate See The Future Cards
 const stfContainer = document.querySelector('.stf-container');
 function seeTheFuture() {
     const stfCards = document.querySelectorAll('.stf')
@@ -360,19 +342,17 @@ function stfToggle() {
 function checkDrawnCard(drawnCard, player, columnToAppend) {
 
     if (drawnCard.id === "ExplodingKitten" && player.hand.findIndex(x => x.name === "Defuse") !== -1) {
-        player.hand.splice(player.hand.findIndex(x => x.name === "Defuse"), 1);
-        columnToAppend.querySelector('#Defuse').remove()
-        console.log(`${player.name} used [Defuse Card] on [Exploding Kitty]`)
-        player.hand.splice(player.hand.findIndex(x => x.name === "ExplodingKitten"), 1);
+        player.hand.splice(player.hand.findIndex(x => x.name === "Defuse"), 1); // remove from array
+        columnToAppend.querySelector('#Defuse').remove() // removes html el
+        player.hand.splice(player.hand.findIndex(x => x.name === "ExplodingKitten"), 1); // remove from array
         // game message
         gameMessages.innerText = `${currentPlayer.name} drew the exploding kitten and defused it!`
-        deck.cards.unshift(new ExplodingKitten); //placeholder => to create function to insert user input
+        deck.cards.unshift(new ExplodingKitten); // future upgrade: get user input to insert
         deck.shuffle();
         turnEnd();
     } else if (drawnCard.id === "ExplodingKitten" && player.hand.findIndex(x => x.name === "Defuse") === -1) {
-        gameMessages.innerText = `${currentPlayer.name} drew the exploding kitten and exploded. ${nextPlayer.name} wins!`
+        gameMessages.innerText = `${currentPlayer.name} drew the exploding kitten and KABOOM! ${nextPlayer.name} wins!`
         drawPile.removeEventListener('click', game.drawCard)
-        console.log(`${player.name} died from [Exploding Kitty]`)
         return game.playAgain();
     } else {
         updatePlayerHandDiv(currentPlayer)
@@ -383,6 +363,7 @@ function checkDrawnCard(drawnCard, player, columnToAppend) {
     }
 }
 
+// Complete turns
 function turnEnd() {
     console.log(`current turn is ${currentPlayer.name}`)
     if (currentPlayer === player1) {
@@ -423,3 +404,21 @@ function turnEnd() {
 }
 
 playButton.addEventListener('click', game.start);
+
+const modal = document.getElementById('modal-01');
+const modalButton = document.getElementById('modal-button');
+const modalCloseButton = document.getElementById('modal-close-button');
+
+modalButton.addEventListener('click', () => {
+    modal.style.display = "block";
+});
+
+modalCloseButton.addEventListener('click', () => {
+    modal.style.display = "none";
+});
+
+window.onclick = (e) => {
+    if (e.target == modal) {
+        modal.style.display = "none";
+    }
+}
