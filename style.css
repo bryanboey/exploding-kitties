@@ -308,7 +308,6 @@ img:hover {
 #exploding {
     grid-row-start: 3;
     grid-column-start: 6;
-    /* margin-right: -43px; */
     display: grid;
     grid-template-columns: repeat(2, 87px);
     grid-template-rows: 120px;

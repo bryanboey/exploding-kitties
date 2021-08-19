@@ -240,7 +240,7 @@ function onClickDiscard(e) {
             break;
         case "Shuffle":
             deck.shuffle();
-            gameMessages.innerText = `[${currentPlayer.name}] SHUFFLE! Deck reshuffled.`
+            gameMessages.innerText = `${currentPlayer.name} used SHUFFLE! Deck reshuffled.`
             seeTheFuture();
             appendDiscardedCards(object)
             break;
@@ -257,12 +257,12 @@ function onClickDiscard(e) {
             seeTheFuture();
             break;
         case "SeeTheFuture":
-            gameMessages.innerText = `[${currentPlayer.name}] SEE THE FUTURE`
+            gameMessages.innerText = `${currentPlayer.name} LOOK INTO THE FUTURE`
             stfToggle()
             appendDiscardedCards(object)
             break;
         case "Attack":
-            gameMessages.innerText = `[${currentPlayer.name}] ATTACK! ${nextPlayer.name} draw 2 turns`
+            gameMessages.innerText = `${currentPlayer.name} ATTACKS! ${nextPlayer.name} draw 2 turns`
             appendDiscardedCards(object)
             turnEnd();
             game.extraTurn = true;
@@ -270,14 +270,14 @@ function onClickDiscard(e) {
             break;
         case "Nope":
             if (discardedCardsArray[0] === "Attack") {
-                gameMessages.innerText = `[${currentPlayer.name}] NOPE! AWW YOU MISSED!`
+                gameMessages.innerText = `${currentPlayer.name} used NOPE! HA! DENIED!`
                 appendDiscardedCards(object)
                 turnEnd();
                 game.extraTurn = false;
             } else if (discardedCardsArray[0] === "Skip" && discardedCardsArray[1] === "Attack") {
                 alert("Invalid move. Skip was used against Attack.");
             } else if (discardedCardsArray[0] === "Skip") {
-                gameMessages.innerText = `[${currentPlayer.name}] NOPE! SKIPPER NO SKIPPING!`
+                gameMessages.innerText = `${currentPlayer.name} says NOPE! SKIPPER NO SKIPPING!`
                 appendDiscardedCards(object);
                 turnEnd();
             } else {
@@ -288,6 +288,7 @@ function onClickDiscard(e) {
             const cardToSteal = nextPlayer.hand[Math.floor(Math.random() * nextPlayer.hand.length)];
             currentPlayer.hand.push(
                 nextPlayer.hand.splice(nextPlayer.hand.indexOf(cardToSteal), 1)[0]); // stealing card
+            gameMessages.innerText = `YOINK! ${currentPlayer.name} stole ${nextPlayer.name}'s ${cardToSteal.name} Card!`
             appendDiscardedCards(object);
             updatePlayerHandDiv(currentPlayer);
             updatePlayerHandDiv(nextPlayer);
@@ -362,6 +363,7 @@ function checkDrawnCard(drawnCard, player, columnToAppend) {
         drawPile.removeEventListener('click', game.drawCard)
         return game.playAgain();
     } else {
+        gameMessages.innerText = `${currentPlayer.name} drew ${drawnCard.id} Card.`
         updatePlayerHandDiv(currentPlayer)
         if (game.extraTurn === false) {
             turnEnd()
