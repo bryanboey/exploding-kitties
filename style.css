@@ -5,7 +5,7 @@
 body {
     background-image: url("images/patternbg.png");
     background-size: 30%;
-    background-color: slategrey;
+    background-color: slategray;
     font-family: 'Roboto Mono', monospace;
     display: flex;
     justify-content: center;
@@ -128,13 +128,25 @@ body {
     margin-top: 5px;
 }
 
-#game-messages {
+#player-turn-display {
     color: rgba(255, 255, 0,1);
     grid-column-start: 5;
     grid-column-end: span 4;
     grid-row-start: 2;
     text-align: center;
     margin-top: -5px;
+ 
+}
+
+#game-messages {
+    /* -webkit-text-stroke: 1px black; */
+    font-weight:700;
+    color: rgb(0, 255, 13);
+    grid-column-start: 5;
+    grid-column-end: span 4;
+    grid-row-start: 3;
+    text-align: center;
+    z-index: 1;
 }
 
 .card {
@@ -302,33 +314,62 @@ img:hover {
     grid-template-rows: 120px;
 }
 
-#exploding img #ExplodingKitten {
+#exploding #ExplodingKitten {
     position: relative;
-    animation: slideup 0.4s;
+    animation: slideup 1s;
+}
+#exploding #Defuse {
+    position: relative;
+    animation: slideup1 1.5s;
 }
 
 @keyframes slideup {
-    from {
-        bottom: -20px;
+    0% {
+        bottom: -200px;
         opacity: 0;
     }
-    to {
-        top: 0px;
+    70% {
+        bottom: 0px;
         opacity: 1;
     }
 }
-#exploding img #Defuse {
+@keyframes slideup1 {
+    0% {
+        bottom: -200px;
+        opacity: 0;
+    }
+    70% {
+        bottom: 0px;
+        opacity: 1;
+    }
+}
+.p1-turn {
+    grid-row-start:inherit;
     position: relative;
-    animation: slideup 0.4s;
+    white-space: nowrap;
+    animation: pointing 1s infinite ease-in-out;
 }
 
-@keyframes slideup {
-    from {
-        bottom: -20px;
-        opacity: 0;
+@keyframes pointing {
+    0% {
+        right: 0px
     }
-    to {
-        top: 0px;
-        opacity: 1;
+    100% {
+        left: 2%;
+    }
+}
+.p2-turn {
+    grid-row-start:inherit;
+    position: relative;
+    white-space: nowrap;
+    animation: pointing2 1s infinite ease-in-out;
+}
+
+@keyframes pointing2 {
+    0% {
+        left: 0px
+    }
+    100% {
+        right: 2%;
     }
 }

@@ -131,11 +131,12 @@ const gameContainer = document.querySelector('.game-container');
 const playButton = document.querySelector('#play-button');
 const restartButton = document.querySelector('#restart-button');
 const drawPile = document.querySelector('.draw-pile');
-const cardBackImage = "images/Card Back.png"
+const cardBackImage = "images/Card Back.png";
 const gameMessages = document.querySelector('#game-messages');
-const deckCounter = document.querySelector('#deck-count')
-const p1 = document.getElementById('p1')
-const p2 = document.getElementById('p2')
+const playerTurnMessage = document.querySelector('#player-turn-display');
+const deckCounter = document.querySelector('#deck-count');
+const p1 = document.getElementById('p1');
+const p2 = document.getElementById('p2');
 let player1;
 let player2;
 let currentPlayer;
@@ -150,13 +151,13 @@ class Game {
         this.currentPlayer = "";
     }
     start(e) {
-        e.preventDefault()
+        e.preventDefault();
         playButton.style.display = "none";
-        discardPile.innerHTML = ""
+        discardPile.innerHTML = "";
         if (document.querySelector('#ExplodingKitten') !== null) {
             document.querySelector('#ExplodingKitten').remove();
         }
-        deckCounter.innerText = ""
+        deckCounter.innerText = "";
         
         player1 = { name: "Player 1", hand: [ new Defuse() ], column: document.querySelector('#p1')}
         player2 = { name: "Player 2", hand: [ new Defuse() ], column: document.querySelector('#p2')}
@@ -192,7 +193,7 @@ class Game {
         turnEnd()
     }
     drawCard() {
-        // if (deck.numOfCards !== 0) ===> consider putting condition 
+        gameMessages.innerText = ""
         let columnToAppend;
         if (game.extraTurn === true) {
             columnToAppend = currentPlayer.column
@@ -339,13 +340,16 @@ function checkDrawnCard(drawnCard, player, columnToAppend) {
 
     if (drawnCard.id === "ExplodingKitten" && player.hand.findIndex(x => x.name === "Defuse") !== -1) {
         player.hand.splice(player.hand.findIndex(x => x.name === "Defuse"), 1); // remove from array
-        columnToAppend.querySelector('#Defuse').remove() // removes html el
         player.hand.splice(player.hand.findIndex(x => x.name === "ExplodingKitten"), 1); // remove from array
-        //
+        const discardDefuse = columnToAppend.querySelector('#Defuse')
+        discardDefuse.className = "discarded card"
+        
         explodingKittenDiv.append(drawnCard, new Defuse().getHTML());
         setTimeout(function() {
             explodingKittenDiv.querySelector('#ExplodingKitten').remove();
             explodingKittenDiv.querySelector('#Defuse').remove();
+            discardDefuse.style.opacity = "1"
+            discardPile.append(discardDefuse); // append to discard pile
         }, 2500);
         // game message
         gameMessages.innerText = `${currentPlayer.name} drew the exploding kitten and defused it!`
@@ -367,6 +371,7 @@ function checkDrawnCard(drawnCard, player, columnToAppend) {
 
 // Complete turns
 function turnEnd() {
+    
     if (currentPlayer === player1) {
         currentPlayer = player2;
         nextPlayer = player1;
@@ -381,6 +386,7 @@ function turnEnd() {
             item.style.backgroundColor = "grey"
             item.style.opacity = "0.6"
         }
+        playerTurnMessage.innerHTML = `Player 2's turn <span class="p2-turn"> >></span>`
 
     } else {
         currentPlayer = player1
@@ -396,8 +402,8 @@ function turnEnd() {
         for (const item of p2.children) {
             item.style.backgroundColor = "grey"
             item.style.opacity = "0.6"
-
         }
+        playerTurnMessage.innerHTML = `<span class="p1-turn"><< </span> Player 1's turn`
     }
     return { currentPlayer, nextPlayer }
 }
