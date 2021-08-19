@@ -18,8 +18,8 @@ body {
     grid-template-rows: [row1-start] 5% [row1-end] 5% [third-line] repeat(5,120px);
     gap: .5rem;
     justify-content: center;
-    max-width: 1000px;
-    max-height: 600px;
+    /* max-width: 1000px;
+    max-height: 600px; */
 }
 
 #modal-button {
@@ -125,14 +125,16 @@ body {
     grid-row-start: 1;
     text-align: center;
     font-size: 1.75rem;
+    margin-top: 5px;
 }
 
 #game-messages {
+    color: rgba(255, 255, 0,1);
     grid-column-start: 5;
     grid-column-end: span 4;
     grid-row-start: 2;
     text-align: center;
-
+    margin-top: -5px;
 }
 
 .card {
@@ -166,6 +168,7 @@ body {
     grid-row-start: 5;
     grid-column-end: span 2;
     text-align: center;
+    margin-top: -4px;
 }
 
 .draw-pile:hover {
@@ -213,9 +216,9 @@ body {
     gap: .5rem;
 }
 
-#p1::after {
+/* #p1::after {
     background-color:rgba(255, 120, 30, 0.3)
-}
+} */
 
 .player-hand {
     background-color: rgb(255, 121, 30, 0.9);
@@ -261,7 +264,7 @@ body {
     background-color:tomato;
 }
 
-#p1 img:hover {
+img:hover {
     transform: scale(2);
 }
 
@@ -289,4 +292,43 @@ body {
 #restart-button:hover {
     color:white;
     background-color:tomato;
+}
+#exploding {
+    grid-row-start: 3;
+    grid-column-start: 6;
+    /* margin-right: -43px; */
+    display: grid;
+    grid-template-columns: repeat(2, 87px);
+    grid-template-rows: 120px;
+}
+
+#exploding img #ExplodingKitten {
+    position: relative;
+    animation: slideup 0.4s;
+}
+
+@keyframes slideup {
+    from {
+        bottom: -20px;
+        opacity: 0;
+    }
+    to {
+        top: 0px;
+        opacity: 1;
+    }
+}
+#exploding img #Defuse {
+    position: relative;
+    animation: slideup 0.4s;
+}
+
+@keyframes slideup {
+    from {
+        bottom: -20px;
+        opacity: 0;
+    }
+    to {
+        top: 0px;
+        opacity: 1;
+    }
 }

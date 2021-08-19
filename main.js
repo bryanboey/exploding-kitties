@@ -26,13 +26,9 @@ class Deck {
             this.cards[newIndex] = this.cards[i];
             this.cards[i] = oldValue
         }
-        console.log("shuffled!");
     }
     deal() {
         return this.cards.shift();
-    }
-    test() {
-        console.log("i am working");
     }
 }
 
@@ -157,6 +153,10 @@ class Game {
         e.preventDefault()
         playButton.style.display = "none";
         discardPile.innerHTML = ""
+        if (document.querySelector('#ExplodingKitten') !== null) {
+            document.querySelector('#ExplodingKitten').remove();
+        }
+        deckCounter.innerText = ""
         
         player1 = { name: "Player 1", hand: [ new Defuse() ], column: document.querySelector('#p1')}
         player2 = { name: "Player 2", hand: [ new Defuse() ], column: document.querySelector('#p2')}
@@ -205,7 +205,6 @@ class Game {
             columnToAppend = currentPlayer.column
             currentPlayer.hand.push(deck.deal())
             let drawnCard = currentPlayer.hand[currentPlayer.hand.length-1].getHTML()
-            console.log(drawnCard)
             checkDrawnCard(drawnCard, currentPlayer, columnToAppend)
             seeTheFuture()
         }
@@ -246,7 +245,6 @@ function onClickDiscard(e) {
             break;
         case "Skip":
             if (game.extraTurn === true) {
-                console.log("extra turn false")
                 gameMessages.innerText = `[${currentPlayer.name}] SKIP! Only need to draw one.`
                 game.extraTurn = false;
                 appendDiscardedCards(object);
@@ -260,7 +258,6 @@ function onClickDiscard(e) {
         case "SeeTheFuture":
             gameMessages.innerText = `[${currentPlayer.name}] SEE THE FUTURE`
             stfToggle()
-            console.log("checkdiscardcard")
             appendDiscardedCards(object)
             break;
         case "Attack":
@@ -272,7 +269,6 @@ function onClickDiscard(e) {
             break;
         case "Nope":
             if (discardedCardsArray[0] === "Attack") {
-                console.log('entered here')
                 gameMessages.innerText = `[${currentPlayer.name}] NOPE! AWW YOU MISSED!`
                 appendDiscardedCards(object)
                 turnEnd();
@@ -337,7 +333,7 @@ function stfToggle() {
         }
     }
 }
-
+const explodingKittenDiv = document.querySelector('#exploding');
 // Check Drawn Cards
 function checkDrawnCard(drawnCard, player, columnToAppend) {
 
@@ -345,12 +341,19 @@ function checkDrawnCard(drawnCard, player, columnToAppend) {
         player.hand.splice(player.hand.findIndex(x => x.name === "Defuse"), 1); // remove from array
         columnToAppend.querySelector('#Defuse').remove() // removes html el
         player.hand.splice(player.hand.findIndex(x => x.name === "ExplodingKitten"), 1); // remove from array
+        //
+        explodingKittenDiv.append(drawnCard, new Defuse().getHTML());
+        setTimeout(function() {
+            explodingKittenDiv.querySelector('#ExplodingKitten').remove();
+            explodingKittenDiv.querySelector('#Defuse').remove();
+        }, 2500);
         // game message
         gameMessages.innerText = `${currentPlayer.name} drew the exploding kitten and defused it!`
         deck.cards.unshift(new ExplodingKitten); // future upgrade: get user input to insert
         deck.shuffle();
         turnEnd();
     } else if (drawnCard.id === "ExplodingKitten" && player.hand.findIndex(x => x.name === "Defuse") === -1) {
+        explodingKittenDiv.append(drawnCard);
         gameMessages.innerText = `${currentPlayer.name} drew the exploding kitten and KABOOM! ${nextPlayer.name} wins!`
         drawPile.removeEventListener('click', game.drawCard)
         return game.playAgain();
@@ -359,13 +362,11 @@ function checkDrawnCard(drawnCard, player, columnToAppend) {
         if (game.extraTurn === false) {
             turnEnd()
         }
-        console.log("entered")
     }
 }
 
 // Complete turns
 function turnEnd() {
-    console.log(`current turn is ${currentPlayer.name}`)
     if (currentPlayer === player1) {
         currentPlayer = player2;
         nextPlayer = player1;
@@ -398,8 +399,6 @@ function turnEnd() {
 
         }
     }
-    console.log(player1.hand)
-    console.log(player2.hand)
     return { currentPlayer, nextPlayer }
 }
 
