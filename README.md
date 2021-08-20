@@ -1,5 +1,5 @@
 # Exploding Kitties - card game
-
+![Exploding Kitties](renders/ek-image-00.png)
 A card game web application inspired by the original Exploding Kittens card game.
 
 <!-- TABLE OF CONTENTS -->
@@ -89,10 +89,30 @@ View the top 3 cards from the Draw Pile.
 ### 1. Generate Cards and Deck
 Using ```class``` to create ```Cards```, ```Deck``` and ```Game``` objects was the best approach to avoid long code blocks of arrays containing objects that are similar; because there are multiples of each card with the added benefit of ```class``` methods that can be called during an in-game round.
 <!-- show case multiple cards or a render -->
-Like any card game, being able to shuffle a deck is essential. Utilising ```class``` methods we can do that.
-<!-- add code -->
+Like any card game, being able to shuffle a deck is essential. Utilising ```class``` methods we can do that and more.
+
+```javascript
+class Deck {
+    constructor() { }
+    reset() { }
+    shuffle() { }
+    deal() { }
+}
+```
+
 We can also create HTML ```<elements>``` through the ```class Card``` object method.
-<!-- add code -->
+```javascript
+getHTML() {
+	  const cardImg = document.createElement("img");
+		cardImg.id = this.name;
+		cardImg.innerText = this.name;
+		cardImg.className = "player-hand card";
+		cardImg.src = this.image;
+		cardImg.style.width = "87px";
+		cardImg.style.borderRadius = "0.5rem";
+		return cardImg;
+	}
+  ```
 
 After all of the cards are generated and pushed into an array using Deck Class, we can start building our game.
 
@@ -107,7 +127,6 @@ After all of the cards are generated and pushed into an array using Deck Class, 
 * Adding, removing, moving, and updating cards through use of the DOM.
     
     * Updating player's hand when drawing a new card.
-        <!-- code snippet -->
 
     * Removing a card and adding it to the discard pile.
         <!-- code snippet -->
@@ -127,9 +146,9 @@ Clean up codes, bug test, rinse and repeat.
 After the codes of the game was finished, it's only just to give the look and feel of the game it deserves. 
 
 Using CSS animation gives a whole different experience for the players. Adding an animation that simply show an 'Exploding Kitten' drawn and 'Defuse' card used helps explain to players that their a 'Defuse' card was discarded from their hand from that event.
-        
+![Explode Defuse](renders/EK-Defuse.gif)
+
 Logging Action cards and player turns help make the game more intuitive and let players understand what is going on during rounds.
-<!-- render with mark ups -->
 
 ## Challenges Faced and Lessons Learnt
 ### 1. Current game model limitations
@@ -138,13 +157,20 @@ There are actually more cards in Exploding ~Kittens~Kitties which are not includ
 ### 2. Creating a function to end player turns
 A head scratcher. One of the challenges faced was how do I prevent the previous player from playing an Action card after drawing a card to end his turn? 
     
-Remove the ```eventListeners``` but only his/hers by targeting the HTML parent ```<element>``` containing them.
+Remove the ```eventListeners``` but only his/hers by targeting the HTML parent ```<element>``` containing them. See ```function turnEnd()```.
 
 ### 3. Remodelling key game functions    
 One of my mistakes when building the game was how player's hand are updated. Initially, the card were simply appending into player's hand array. While that is fine and dandy, it is not efficient. It would mean that different event types would require different function to update players' cards. And that is way too confusing to read and troubleshoot when problems arises. 
     
 One ```function```, one **job**.
-<!-- code snippet -->
+```javascript
+function updatePlayerHandDiv(player) {
+	player.column.innerHTML = "";
+	for (const card of player.hand) {
+		player.column.append(card.getHTML());
+	}
+}
+```
 
 ### 4. Transitioning empty div to img element
 After the game logic was completed, it was time to update those empty cards into images to dress up the game. It worked through the use of the ```class Card``` method, ```getHTML()```, but it prevented me from playing any Action cards. Why? Codes were trying to read ```innerText``` in the ```if else``` which returned a ```null``` value.
