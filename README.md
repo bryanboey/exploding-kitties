@@ -87,9 +87,9 @@ View the top 3 cards from the Draw Pile.
 
 ## Flow and Approach
 ### 1. Generate Cards and Deck
-Using Classes to create ```Cards```, ```Deck``` and ```Game``` objects was the best approach to avoid long code blocks of arrays containing objects that are similar; because there are multiples of each card with the added benefit of ```Class``` Methods that can be called during an in-game round.
+Using ```class``` to create ```Cards```, ```Deck``` and ```Game``` objects was the best approach to avoid long code blocks of arrays containing objects that are similar; because there are multiples of each card with the added benefit of ```class``` methods that can be called during an in-game round.
 <!-- show case multiple cards or a render -->
-Like any card game, being able to shuffle a deck is essential. Utilising ```Class``` Methods we can do that.
+Like any card game, being able to shuffle a deck is essential. Utilising ```class``` methods we can do that.
 <!-- add code -->
 We can also create HTML ```<elements>``` through the ```class Card``` object method.
 <!-- add code -->
@@ -119,7 +119,7 @@ After all of the cards are generated and pushed into an array using Deck Class, 
     <!-- code snippet -->
 
 ### 3. Optimising & Overall Design
-Card images are generated through the use of ```Class``` methods.
+Card images are generated through the use of ```class``` methods.
 <!-- code snippet -->
 
 Clean up codes, bug test, rinse and repeat.
