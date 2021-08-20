@@ -86,25 +86,25 @@ View the top 3 cards from the Draw Pile.
 **GOOD LUCK HAVE FUN & DON’T EXPLODE!**
 
 ## Flow and Approach
-1. Generate Cards and Deck
-    1. Using Classes to create Cards, Deck and Game objects was the best approach to avoid long code blocks of arrays containing objects that are similar; because there are multiples of each card with the added benefit of Class Methods that can be called during an in-game round.
-    <!-- show case multiple cards or a render -->
-    Like any card game, being able to shuffle a deck is essential. Utilising Class Methods we can do that.
-    <!-- add code -->
-    We can also create HTML elements through the Class Card object method.
-    <!-- add code -->
+### 1. Generate Cards and Deck
+Using Classes to create Cards, Deck and Game objects was the best approach to avoid long code blocks of arrays containing objects that are similar; because there are multiples of each card with the added benefit of Class Methods that can be called during an in-game round.
+<!-- show case multiple cards or a render -->
+Like any card game, being able to shuffle a deck is essential. Utilising Class Methods we can do that.
+<!-- add code -->
+We can also create HTML elements through the Class Card object method.
+<!-- add code -->
 
-    After all of the cards are generated and pushed into an array using Deck Class, we can start building our game.
+After all of the cards are generated and pushed into an array using Deck Class, we can start building our game.
 
-2. Building the Game
-    1. Create functions for each action: draw, discard, playing an Action card.
-    
-    Started simple by drawing a card and die to an Exploding Kitten. Slowly added on from there; makes troubleshooting easier.
+### 2. Building the Game
+1. Create functions for each action: draw, discard, playing an Action card.
 
-    2. Arrays are useful in storing data. For this game, we use them specifically for draw pile, discard pile, each player hands, and see the future cards.
-    <!-- code snippets -->  
+Started simple by drawing a card and die to an Exploding Kitten. Slowly added on from there; makes troubleshooting easier.
 
-    3. Adding, removing, moving, and updating cards through use of the DOM.
+2. Arrays are useful in storing data. For this game, we use them specifically for draw pile, discard pile, each player hands, and see the future cards.
+<!-- code snippets -->  
+
+3. Adding, removing, moving, and updating cards through use of the DOM.
     
     Updating player's hand when drawing a new card.
         <!-- code snippet -->
@@ -115,21 +115,21 @@ View the top 3 cards from the Draw Pile.
     Move a card when player steals a card.
         <!-- code snippet -->
 
-    4. Switch case for Action Cards. Players use Action cards against players during in-game rounds. Each Action card is unique properties and may be interactable with played action cards on the discard pile such as playing a 'Nope' card on an 'Attack' card.
+4. Switch case for Action Cards. Players use Action cards against players during in-game rounds. Each Action card is unique properties and may be interactable with played action cards on the discard pile such as playing a 'Nope' card on an 'Attack' card.
         <!-- code snippet -->
 
-3. Optimising & Overall Design
-    1. Card images are generated through the use of Class methods.
-    <!-- code snippet -->
+### 3. Optimising & Overall Design
+Card images are generated through the use of Class methods.
+<!-- code snippet -->
 
-    2. Clean up codes, bug test, rinse and repeat.
+Clean up codes, bug test, rinse and repeat.
     
-    After the codes of the game was finished, it's only just to give the look and feel of the game it deserves. 
+After the codes of the game was finished, it's only just to give the look and feel of the game it deserves. 
 
-    3. Using CSS animation gives a whole different experience for the players. Adding an animation that simply show an 'Exploding Kitten' drawn and 'Defuse' card used helps explain to players that their a 'Defuse' card was discarded from their hand from that event.
+Using CSS animation gives a whole different experience for the players. Adding an animation that simply show an 'Exploding Kitten' drawn and 'Defuse' card used helps explain to players that their a 'Defuse' card was discarded from their hand from that event.
         
-    4. Logging Action cards and player turns help make the game more intuitive and let players understand what is going on during rounds.
-    <!-- render with mark ups -->
+Logging Action cards and player turns help make the game more intuitive and let players understand what is going on during rounds.
+<!-- render with mark ups -->
 
 ## Challenges Faced and Lessons Learnt
 ### 1. Current game model limitations
