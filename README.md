@@ -87,17 +87,17 @@ View the top 3 cards from the Draw Pile.
 
 ## Flow and Approach
 ### 1. Generate Cards and Deck
-Using Classes to create Cards, Deck and Game objects was the best approach to avoid long code blocks of arrays containing objects that are similar; because there are multiples of each card with the added benefit of Class Methods that can be called during an in-game round.
+Using Classes to create ```Cards```, ```Deck``` and ```Game``` objects was the best approach to avoid long code blocks of arrays containing objects that are similar; because there are multiples of each card with the added benefit of ```Class``` Methods that can be called during an in-game round.
 <!-- show case multiple cards or a render -->
-Like any card game, being able to shuffle a deck is essential. Utilising Class Methods we can do that.
+Like any card game, being able to shuffle a deck is essential. Utilising ```Class``` Methods we can do that.
 <!-- add code -->
-We can also create HTML elements through the Class Card object method.
+We can also create HTML ```<elements>``` through the ```class Card``` object method.
 <!-- add code -->
 
 After all of the cards are generated and pushed into an array using Deck Class, we can start building our game.
 
 ### 2. Building the Game
-* Create functions for each action: draw, discard, playing an Action card.
+* Create ```functions``` for each action: draw, discard, playing an Action card.
 
     Started simple by drawing a card and die to an Exploding Kitten. Slowly added on from there; makes troubleshooting easier.
 
@@ -115,11 +115,11 @@ After all of the cards are generated and pushed into an array using Deck Class, 
     * Move a card when player steals a card.
         <!-- code snippet -->
 
-* Switch case for Action Cards. Players use Action cards against players during in-game rounds. Each Action card is unique properties and may be interactable with played action cards on the discard pile such as playing a 'Nope' card on an 'Attack' card.
+* ```switch case``` for Action Cards. Players use Action cards against players during in-game rounds. Each Action card is unique properties and may be interactable with played action cards on the discard pile such as playing a 'Nope' card on an 'Attack' card.
     <!-- code snippet -->
 
 ### 3. Optimising & Overall Design
-Card images are generated through the use of Class methods.
+Card images are generated through the use of ```Class``` methods.
 <!-- code snippet -->
 
 Clean up codes, bug test, rinse and repeat.
@@ -138,16 +138,16 @@ There are actually more cards in Exploding ~Kittens~Kitties which are not includ
 ### 2. Creating a function to end player turns
 A head scratcher. One of the challenges faced was how do I prevent the previous player from playing an Action card after drawing a card to end his turn? 
     
-Remove the event listeners but only his/hers by targeting the parent HTML element containing them.
+Remove the ```eventListeners``` but only his/hers by targeting the HTML parent ```<element>``` containing them.
 
 ### 3. Remodelling key game functions    
 One of my mistakes when building the game was how player's hand are updated. Initially, the card were simply appending into player's hand array. While that is fine and dandy, it is not efficient. It would mean that different event types would require different function to update players' cards. And that is way too confusing to read and troubleshoot when problems arises. 
     
-One function, one job.
+One ```function```, one **job**.
 <!-- code snippet -->
 
 ### 4. Transitioning empty div to img element
-After the game logic was completed, it was time to update those empty cards into images to dress up the game. It worked through the use of the ```Class Card``` method, ```getHTML()```, but it prevented me from playing any Action cards. Why? Another silly mistake of using ```innerText``` in the ```if else```. 
+After the game logic was completed, it was time to update those empty cards into images to dress up the game. It worked through the use of the ```Class Card``` method, ```getHTML()```, but it prevented me from playing any Action cards. Why? Codes were trying to read ```innerText``` in the ```if else``` which returned a ```null``` value.
 
 An easy fix was to give each card an element ID and reading that instead.
 
@@ -161,7 +161,7 @@ In the process of updating the game to use Bootstrap instead of CSS Grids.
 
 2. **Scaling different displays** - Work in progress of moving to aforementioned Bootstrap.
 
-3. **Expand to full game** - In order to this, because of the nature of the missing cards, I would have to remodel the eventListener to something else. Perhaps a submit button for Action cards; a 2-step process.
+3. **Expand to full game** - In order to this, because of the nature of the missing cards, I would have to remodel the ```eventListener``` to something else. Perhaps a submit ```<button>``` for Action cards; a 2-step process.
 
 4. **Bringing it online** - Taking this game online will enable up to five players to play the game. Hopefully one where a player can create a lobby and have friends join them.
 
