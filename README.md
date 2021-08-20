@@ -14,9 +14,9 @@ A card game web application inspired by the original Exploding Kittens card game
     </li>
     <li><a href="#how-to-play">How to Play</a></li>
     <li><a href="#flow-and-approach">Flow and Approach</a><ul>
-        <li><a href="#building-cards-and-deck">Generate Cards and Deck</a></li>
-        <li><a href="#building-the-game">Building the Game</a></li>
-        <li><a href="#optimising-and-overall-design">Optimising and Overall Design</a></li>
+        <li><a href="#1-generate-cards-and-deck">Generate Cards and Deck</a></li>
+        <li><a href="#2-building-the-game">Building the Game</a></li>
+        <li><a href="#3-optimising--overall-design">Optimising and Overall Design</a></li>
       </ul>
     </li>
     <li><a href="#challenges-faced-and-lessons-learnt">Challenges Faced and Lessons Learnt</a></li>
