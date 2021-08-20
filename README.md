@@ -137,30 +137,30 @@ After all of the cards are generated and pushed into an array using Deck Class, 
 
 ## Challenges Faced and Lessons Learnt
 1. Current game model limitations
-There are actually more cards in Exploding ~Kittens~Kitties which are not included in this game. Currently, the game is modelled in a manner that each round it only takes a single card from each player per round, which led to an incomplete product. The remaining cards are played in pairs, three of a kind, and five unique cards which won't work for the current model.
+    * There are actually more cards in Exploding ~Kittens~Kitties which are not included in this game. Currently, the game is modelled in a manner that each round it only takes a single card from each player per round, which led to an incomplete product. The remaining cards are played in pairs, three of a kind, and five unique cards which won't work for the current model.
 
 2. Creating a function to end player turns
-A head scratcher. One of the challenges faced was how do I prevent the previous player from playing an Action card after drawing a card to end his turn? 
-
-Remove the event listeners but only his/hers by targeting the parent HTML element containing them.
+    * A head scratcher. One of the challenges faced was how do I prevent the previous player from playing an Action card after drawing a card to end his turn? 
+    
+    Remove the event listeners but only his/hers by targeting the parent HTML element containing them.
 
 3. Remodelling key game function
-_The 'Favor' card - stealing a player card - triggered a need for a method to update both player's hands._
-
-One of my mistakes when building the game was how player's hand are updated. Initially, the card were simply appending into player's hand array. While that is fine and dandy, it is not efficient. It would mean that different event types would require different function to update players' cards. And that is way too confusing to read and troubleshoot when problems arises. 
-
-One function, one job.
-<!-- code snippet -->
+    * _The 'Favor' card - stealing a player card - triggered a need for a method to update both player's hands._
+    
+    One of my mistakes when building the game was how player's hand are updated. Initially, the card were simply appending into player's hand array. While that is fine and dandy, it is not efficient. It would mean that different event types would require different function to update players' cards. And that is way too confusing to read and troubleshoot when problems arises. 
+    
+    One function, one job.
+    <!-- code snippet -->
 
 4. From empty div to img element
-After the game logic was completed, it was time to update those empty cards into images to dress up the game. It worked through the use of the ```Class Card``` method, ```getHTML()```, but it prevented me from playing any Action cards. Why? Another silly mistake of using ```innerText``` in the ```if else```.
-
-An easy fix was to give each card an element ID and reading that instead.
+    * After the game logic was completed, it was time to update those empty cards into images to dress up the game. It worked through the use of the ```Class Card``` method, ```getHTML()```, but it prevented me from playing any Action cards. Why? Another silly mistake of using ```innerText``` in the ```if else```. 
+    
+    An easy fix was to give each card an element ID and reading that instead.
 
 5. CSS Grids
-Scaling problems on different screens and not viewable on mobile devices.
-
-In the process of updating the game to use Bootstrap instead of CSS Grids.
+    * Scaling problems on different screens and not viewable on mobile devices. 
+    
+    In the process of updating the game to use Bootstrap instead of CSS Grids.
 ## Areas for Improvement
 1. More efficient codes
 There are still some repeating blocks of codes that are still present. Can be more efficient using callbacks.
