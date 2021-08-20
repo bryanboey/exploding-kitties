@@ -147,7 +147,7 @@ One ```function```, one **job**.
 <!-- code snippet -->
 
 ### 4. Transitioning empty div to img element
-After the game logic was completed, it was time to update those empty cards into images to dress up the game. It worked through the use of the ```Class Card``` method, ```getHTML()```, but it prevented me from playing any Action cards. Why? Codes were trying to read ```innerText``` in the ```if else``` which returned a ```null``` value.
+After the game logic was completed, it was time to update those empty cards into images to dress up the game. It worked through the use of the ```class Card``` method, ```getHTML()```, but it prevented me from playing any Action cards. Why? Codes were trying to read ```innerText``` in the ```if else``` which returned a ```null``` value.
 
 An easy fix was to give each card an element ID and reading that instead.
 
