@@ -46,11 +46,11 @@ BASICALLY, IF YOU EXPLODE, YOU LOSE.
 
 ### TAKING YOUR TURN
 Gather all 5 of your cards into your hand and look at them. Do one of the following:
-- 1 Either
-    - PASS - Play no cards _OR_
-    - PLAY - Play a card by placing it FACE UP on top of the Discard Pile. You can play as many cards as you’d like
+1. Either
+    * PASS - Play no cards _OR_
+    * PLAY - Play a card by placing it FACE UP on top of the Discard Pile. You can play as many cards as you’d like
 
-- 2 End your turn by drawing a card from the Draw Pile into your hand and hope that it’s not an Exploding Kitten. You END YOUR TURN by drawing a card.
+2. End your turn by drawing a card from the Draw Pile into your hand and hope that it’s not an Exploding Kitten. You END YOUR TURN by drawing a card.
 
 ### ENDING THE GAME
 The last player who hasn’t exploded wins the game.
