@@ -35,8 +35,8 @@ Exploding Kitties is a modified version of the original game with similar set of
 * HTML
 * CSS
 
-### How to Play
-#### HOW IT WORKS
+## How to Play
+### HOW IT WORKS
 In the deck of cards are some Exploding Kittens.
 You play the game by putting the deck face down and take turns drawing cards until someone draws an Exploding Kitten.
 
@@ -46,7 +46,7 @@ This process continues until there’s only 1 player left, who wins the game.
 
 BASICALLY, IF YOU EXPLODE, YOU LOSE.
 
-#### TAKING YOUR TURN
+### TAKING YOUR TURN
 Gather all 5 of your cards into your hand and look at them. Do one of the following:
 - 1 Either
     - PASS - Play no cards _OR_
@@ -54,35 +54,35 @@ Gather all 5 of your cards into your hand and look at them. Do one of the follow
 
 - 2 End your turn by drawing a card from the Draw Pile into your hand and hope that it’s not an Exploding Kitten. You END YOUR TURN by drawing a card.
 
-#### ENDING THE GAME
+### ENDING THE GAME
 The last player who hasn’t exploded wins the game.
 
-#### CARDS
-##### EXPLODING KITTEN
+### CARDS
+#### EXPLODING KITTEN
 You must show this card immediately. Unless you have a Defuse Card, you’re dead.
 (Exploding Kitten is inserted back randomly after defusal)
 
-##### DEFUSE
+#### DEFUSE
 If you drew an Exploding Kitten, your Defuse Card will automatically be placed into Discard Pile and Exploding Kitten Card will be randomly inserted back (for now).
 
-##### ATTACK
+#### ATTACK
 Do not draw any cards. Instead immediately force the next player to take 2 turns in a row. Play then continues from that player. The victim takes a turn as normal (pass-or-play then draw). When their first turn is over, It’s their turn again.
 
 The victim of an Attack Card may play an Attack Card and the new victim will have to take 2 turns instead.
 
-##### FAVOR
+#### FAVOR
 Randomly steals a player’s card from their hand.
 
-##### NOPE
+#### NOPE
 Stop action cards such as Skip and Attack Cards (for now). May not be used against Exploding Kitten and Defuse Card.
 
-##### SHUFFLE
+#### SHUFFLE
 Self explanatory. Reshuffles the draw pile.
 
-##### SKIP
+#### SKIP
 Immediately end your turn without drawing a card. If you play a Skip Card as a defence to an Attack Card, it only ends 1 of the 2 turns. 2 Skip Cards would end both turns.
 
-##### SEE THE FUTURE
+#### SEE THE FUTURE
 View the top 3 cards from the Draw Pile.
 
 **GOOD LUCK HAVE FUN & DON’T EXPLODE!**
