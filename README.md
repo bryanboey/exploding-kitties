@@ -97,26 +97,26 @@ We can also create HTML elements through the Class Card object method.
 After all of the cards are generated and pushed into an array using Deck Class, we can start building our game.
 
 ### 2. Building the Game
-1. Create functions for each action: draw, discard, playing an Action card.
+* Create functions for each action: draw, discard, playing an Action card.
 
-Started simple by drawing a card and die to an Exploding Kitten. Slowly added on from there; makes troubleshooting easier.
+    Started simple by drawing a card and die to an Exploding Kitten. Slowly added on from there; makes troubleshooting easier.
 
-2. Arrays are useful in storing data. For this game, we use them specifically for draw pile, discard pile, each player hands, and see the future cards.
+* Arrays are useful in storing data. For this game, we use them specifically for draw pile, discard pile, each player hands, and see the future cards.
 <!-- code snippets -->  
 
-3. Adding, removing, moving, and updating cards through use of the DOM.
+* Adding, removing, moving, and updating cards through use of the DOM.
     
-    Updating player's hand when drawing a new card.
+    * Updating player's hand when drawing a new card.
         <!-- code snippet -->
 
-    Removing a card and adding it to the discard pile.
+    * Removing a card and adding it to the discard pile.
         <!-- code snippet -->
 
-    Move a card when player steals a card.
+    * Move a card when player steals a card.
         <!-- code snippet -->
 
-4. Switch case for Action Cards. Players use Action cards against players during in-game rounds. Each Action card is unique properties and may be interactable with played action cards on the discard pile such as playing a 'Nope' card on an 'Attack' card.
-        <!-- code snippet -->
+* Switch case for Action Cards. Players use Action cards against players during in-game rounds. Each Action card is unique properties and may be interactable with played action cards on the discard pile such as playing a 'Nope' card on an 'Attack' card.
+    <!-- code snippet -->
 
 ### 3. Optimising & Overall Design
 Card images are generated through the use of Class methods.
@@ -146,7 +146,7 @@ One of my mistakes when building the game was how player's hand are updated. Ini
 One function, one job.
 <!-- code snippet -->
 
-### 4. From empty div to img element
+### 4. Transitioning empty div to img element
 After the game logic was completed, it was time to update those empty cards into images to dress up the game. It worked through the use of the ```Class Card``` method, ```getHTML()```, but it prevented me from playing any Action cards. Why? Another silly mistake of using ```innerText``` in the ```if else```. 
 
 An easy fix was to give each card an element ID and reading that instead.
