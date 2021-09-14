@@ -270,6 +270,7 @@ body {
     grid-row-start: 5;
     border: none;
     margin: 50px 25px 50px 25px;
+    z-index: 10000;
 }
 #play-button:hover {
     color:white;
